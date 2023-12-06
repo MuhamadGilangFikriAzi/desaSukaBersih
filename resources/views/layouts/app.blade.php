@@ -44,6 +44,8 @@
     @yield('head_theme_script')
     <!-- /theme JS files -->
 
+    {{-- Editor --}}
+    <script src="https://cdn.ckeditor.com/ckeditor5/37.0.1/classic/ckeditor.js"></script>
     <!-- Plug in JS -->
     <script src="{{ url('js/BrowserPrint-1.0.4.min.js') }}" type="text/javascript"></script>
     <script src="{{ url('js/DevDemo.js') }}" type="text/javascript"></script>
@@ -51,6 +53,14 @@
     <script type="text/javascript">
         $(document).ready(setup_web_print);
     </script>
+
+    <style>
+        .ck-editor__editable[role="textbox"] {
+            /* editing area */
+            min-height: 500px;
+            max-height: 500px;
+        }
+    </style>
 
 </head>
 
@@ -146,7 +156,7 @@
                                 </a>
 
                             <li class="nav-item">
-                                <a href="{{ route('index') }}" class="nav-link">
+                                <a href="{{ route('parametersurat') }}" class="nav-link">
                                     <i class="fas fa-hand-holding-usd nav-icon"></i>
                                     <p>Parameter Surat</p>
                                 </a>

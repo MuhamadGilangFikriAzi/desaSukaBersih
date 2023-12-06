@@ -27,11 +27,12 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $role = Role::findById(1);
+        //$role = Role::findById(1);
         // return auth()->user()->removeRole($role);
-        auth()->user()->assignRole('Admin');
+        //auth()->user()->assignRole('Admin');
 
-        //$role = Role::create(['name' => 'Admin']);
+        // $role = Role::create(['name' => 'Admin']);
+        // auth()->user()->assignRole('Admin');
         // $permission = Permission::create(['name' => 'update post']);
 
         // $permission->assignRole($role);

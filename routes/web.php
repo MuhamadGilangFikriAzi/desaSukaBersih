@@ -27,6 +27,15 @@ Route::get('edit-data', 'AuthorizationController@editData');
 Route::get('update-data', 'AuthorizationController@updateData');
 Route::get('delete-data', 'AuthorizationController@deleteData');
 
+Route::prefix('parametersurat')->group(function () {
+    Route::get('/', 'ParameterSuratController@index')->name('parametersurat');
+    Route::get('create', 'ParameterSuratController@create')->name('parametersuratcreate');
+    Route::post('create/store', 'ParameterSuratController@store')->name('parametersuratstore');
+    Route::get('edit/{id}', 'ParameterSuratController@edit')->name('parametersuratedit');
+    Route::put('edit/update/{id}', 'ParameterSuratController@update')->name('parametersuratupdate');
+    Route::delete('destroy/{id}', 'ParameterSuratController@destroy')->name('parametersuratdestroy');
+});
+
 // Route::prefix('role')->group(function(){
 //     Route::get('/','RoleController@index')->name('role_list');
 //     Route::get('create','RoleController@create')->name('create_role');
