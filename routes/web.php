@@ -36,6 +36,16 @@ Route::prefix('parametersurat')->group(function () {
     Route::delete('destroy/{id}', 'ParameterSuratController@destroy')->name('parametersuratdestroy');
 });
 
+Route::prefix('surat')->group(function () {
+    Route::get('/', 'SuratController@index')->name('surat');
+    Route::get('create', 'SuratController@create')->name('suratcreate');
+    Route::post('create/store', 'SuratController@store')->name('suratstore');
+    Route::get('edit/{id}', 'SuratController@edit')->name('suratedit');
+    Route::put('edit/update/{id}', 'SuratController@update')->name('suratupdate');
+    Route::delete('destroy/{id}', 'SuratController@destroy')->name('suratdestroy');
+    Route::post('onChangeTypeSurat', 'SuratController@onChangeTypeSurat')->name('onChangeTypeSurat');
+});
+
 // Route::prefix('role')->group(function(){
 //     Route::get('/','RoleController@index')->name('role_list');
 //     Route::get('create','RoleController@create')->name('create_role');

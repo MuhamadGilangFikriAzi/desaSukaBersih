@@ -14,8 +14,8 @@
                     <!-- Nested Row within Card Body -->
                     <div class="row">
                         <div class="col-lg-6 d-none d-sm-block bg-login-image">
-                            <img src="{{ asset('img/telagamurni/login.png') }}" alt="img"
-                                style="width: 105%; background-color: black; height: 100%;">
+                            <img src="{{ asset('img/kab-logo.png') }}" alt="img"
+                                style="width: 105%; background-color: white; height: 100%;">
                         </div>
                         <div class="col-lg-6">
                             <div class="p-5">
@@ -46,7 +46,7 @@
                                             </span>
                                         @enderror
                                     </div>
-                                    <div class="form-group">
+                                    {{-- <div class="form-group">
                                         <div class="custom-control custom-checkbox small">
                                             <input class="custom-control-input" type="checkbox" name="remember"
                                                 id="remember" {{ old('remember') ? 'checked' : '' }}>
@@ -54,7 +54,7 @@
                                                 {{ __('Remember Me') }}
                                             </label>
                                         </div>
-                                    </div>
+                                    </div> --}}
                                     <button type="submit" class="btn btn-dark" style="width: 100%;">
                                         {{ __('Login') }}
                                     </button>

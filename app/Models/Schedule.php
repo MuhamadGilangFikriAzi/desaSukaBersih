@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Surat extends Model
+class Schedule extends Model
 {
 
     protected $table = 'surat';
@@ -12,8 +12,5 @@ class Surat extends Model
     public $timestamps = false;
     protected $dates = ['deleted_at'];
 
-    public function parameterSurat()
-    {
-        return $this->hasOne('App\parameter_surat', 'parameter_surat', 'id');
-    }
+    
 }

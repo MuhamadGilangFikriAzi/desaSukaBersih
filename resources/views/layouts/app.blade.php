@@ -50,6 +50,12 @@
     <script src="{{ url('js/BrowserPrint-1.0.4.min.js') }}" type="text/javascript"></script>
     <script src="{{ url('js/DevDemo.js') }}" type="text/javascript"></script>
     <script type="text/javascript" src="{{ url('webcamjs/webcam.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous">
+    </script>
     <script type="text/javascript">
         $(document).ready(setup_web_print);
     </script>
@@ -89,27 +95,25 @@
                         @endif
                     @else
                         <!-- Messages Dropdown Menu -->
-                        <li class="nav-item dropdown">
+                        <div class="nav-item dropdown">
                             <a class="nav-link" data-toggle="dropdown" href="#">
                                 {{ Auth::user()->name }} <i class="fas fa-angle-down"></i>
                             </a>
-                            <div class="dropdown">
-                                <ul class="dropdown-menu">
-                                    <a class="dropdown-item" href="{{ route('edit_prof', Auth::user()->id) }}">Edit
-                                        Profile</a>
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                        onclick="event.preventDefault();
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="{{ route('edit_prof', Auth::user()->id) }}">Edit
+                                    Profile</a>
+                                <a class="dropdown-item" href="{{ route('logout') }}"
+                                    onclick="event.preventDefault();
                                         document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
-                                    </a>
+                                    {{ __('Logout') }}
+                                </a>
 
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                                        style="display: none;">
-                                        @csrf
-                                    </form>
-                                </ul>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                    style="display: none;">
+                                    @csrf
+                                </form>
                             </div>
-                        </li>
+                        </div>
                     @endguest
                 </ul>
             </nav>
@@ -118,37 +122,23 @@
             <aside class="main-sidebar sidebar-dark-primary elevation-4">
                 <!-- Brand Logo -->
                 <a href="#" class="brand-link">
-                    <img src="{{ asset('adminlte/dist/img/AdminLTELogo.png') }}" alt="img"
-                        class="brand-image img-circle elevation-3" style="opacity: .8">
+                    <img src="{{ asset('img/kab-logo.png') }}" alt="img"
+                        class="brand-image img-circle elevation-3"
+                        style="opacity: .8; background: transparant !important">
                     <span class="brand-text font-weight-light">Web Desa Suka Bersih</span>
                 </a>
 
                 <!-- Sidebar -->
                 <div class="sidebar">
-                    <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-                        <div class="image">
-                            <img src="{{ asset('img/user/user.png') }}" class="img-circle elevation-2"
-                                alt="User Image">
-                            {{-- @if (Auth::user()->image != null)
-                                <img src="{{ asset('img/user/' + Auth::user()->image) }}" class="img-circle elevation-2"
-                                    alt="User Image">
-                            @else
-                                <img src="{{ asset('img/user/user.png') }}" class="img-circle elevation-2" alt="User Image">
-                            @endif --}}
-                        </div>
-                        <div class="info">
-                            <a href="#" class="d-block"></a>
-                        </div>
-                    </div>
-
                     <!-- Sidebar Menu -->
                     <nav class="mt-2">
                         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                             data-accordion="false">
                             <!-- Add icons to the links using the .nav-icon class
                    with font-awesome or any other icon font library -->
-                            <li class="nav-item has-treeview menu-open">
-                                <a href="{{ url('/home') }}" class="nav-link active">
+                            <li class="nav-item has-treeview">
+                                <a href="{{ url('/home') }}"
+                                    class="nav-link @if (Request::is('home/*') || Request::is('home')) active @endif">
                                     <i class="nav-icon fas fa-tachometer-alt"></i>
                                     <p>
                                         Dashboard
@@ -156,13 +146,15 @@
                                 </a>
 
                             <li class="nav-item">
-                                <a href="{{ route('parametersurat') }}" class="nav-link">
+                                <a href="{{ route('parametersurat') }}"
+                                    class="nav-link @if (Request::is('parametersurat/*') || Request::is('parametersurat')) active @endif">
                                     <i class="fas fa-hand-holding-usd nav-icon"></i>
                                     <p>Parameter Surat</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ url('report') }}" class="nav-link">
+                                <a href="{{ url('surat') }}"
+                                    class="nav-link @if (Request::is('surat/*') || Request::is('surat')) active @endif">
                                     <i class="fas fa-clipboard-list nav-icon"></i>
                                     <p>Surat</p>
                                 </a>

@@ -9,6 +9,10 @@ use Illuminate\Support\Facades\Auth;
 
 class ParameterSuratController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -17,18 +21,24 @@ class ParameterSuratController extends Controller
     public function index(Request $request)
     {
         $list = ParameterSurat::query();
-
+        $filter = [
+            'id' => '',
+            'type_surat' => '',
+        ];
+        //dd($request->id);
         if ($request->id) {
             $list = $list->where('id', '=', $request->id);
+            $filter['id'] = $request->id;
         }
-        if ($request->type) {
-            $list = $list->where('type_surat', 'like', '%' . $request->type . '%');
+        if ($request->type_surat) {
+            $list = $list->where('type_surat', 'like', '%' . $request->type_surat . '%');
+            $filter['type_surat'] = $request->parameter_surat_id;
         }
 
         $list = $list->paginate('10');
 
         $count = ParameterSurat::all()->count();
-        return view('parametersurat/index', compact('list', 'count'));
+        return view('parametersurat/index', compact('list', 'count', 'filter'));
     }
 
     public function create()

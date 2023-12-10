@@ -17,8 +17,13 @@ class ParameterSurat extends Model
         return $this->belongsTo('App\Models\UserModel', 'admin_id', 'id');
     }
 
-    public function details()
+    public function parameterSuratDetails()
     {
-        return $this->hasMany('App\Models\ParameterSuratDetail', 'parameter_surat_id', 'id');
+        return $this->hasMany(ParameterSuratDetail::class);
+    }
+
+    public function surat()
+    {
+        return $this->belongsTo('App\Models\Surat', 'id', 'parameter_surat_id');
     }
 }
