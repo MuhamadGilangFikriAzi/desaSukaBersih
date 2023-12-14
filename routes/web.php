@@ -44,6 +44,8 @@ Route::prefix('surat')->group(function () {
     Route::put('edit/update/{id}', 'SuratController@update')->name('suratupdate');
     Route::delete('destroy/{id}', 'SuratController@destroy')->name('suratdestroy');
     Route::post('onChangeTypeSurat', 'SuratController@onChangeTypeSurat')->name('onChangeTypeSurat');
+    Route::post('getDataOnPrint', 'SuratController@getDataOnPrint')->name('getDataOnPrint');
+    Route::post('generateSuratPDF', 'SuratController@generateSuratPDF')->name('geerateSuratPDF');
 });
 
 // Route::prefix('role')->group(function(){

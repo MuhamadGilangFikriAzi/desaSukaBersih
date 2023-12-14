@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\ParameterSurat;
 use App\Models\Surat;
 use App\Models\SuratDetail;
+use DB;
 use Illuminate\Http\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use PDF;
 
 class SuratController extends Controller
 {
@@ -65,6 +67,33 @@ class SuratController extends Controller
         ]]);
     }
 
+    public function getDataOnPrint(Request $request)
+    {
+        $data = Surat::find($request->id);
+
+        $bodySurat = $data->body_surat;
+        $document = [];
+
+        foreach ($data->detail()->get() as $value) {
+            if ($value->input_type == "text") {
+                $bodySurat = str_replace("[" . $value->tag . "]", $value->value, $bodySurat);
+            }
+
+            if ($value->input_type == "date") {
+                $bodySurat = str_replace("[" . $value->tag . "]", date("d F Y", strtotime($value->value)), $bodySurat);
+            }
+
+            if ($value->input_type == "document") {
+                array_push($document, $value);
+            }
+        }
+
+        return response()->json(['data' => [
+            'bodySurat' => $bodySurat,
+            'document' => $document,
+        ]]);
+    }
+
     public function store(Request $request)
     {
         $message = [
@@ -82,7 +111,6 @@ class SuratController extends Controller
         }
 
         $this->validate($request, $arrValidate, $message);
-        //dd(Storage::disk('document_upload')->exists('17022103011. Menganalisis Skalabilitas Perangkat Lunak.pdf'));
 
         $templateSurat = ParameterSurat::find($request->parameter_surat_id);
         $reqSurat = [
@@ -92,18 +120,14 @@ class SuratController extends Controller
         ];
 
         $respSurat = Surat::create($reqSurat);
-
-        //dd($request->hasfile('detail.2.value'));
-        //dd($request->detail);
         foreach ($request->detail as $key => $value) {
             $reqDetail = $value;
             $reqDetail['surat_id'] = $respSurat->id;
 
             if ($value['input_type'] == 'document' && $request->hasfile('detail.' . $key . '.value')) {
-                // rill
                 $originalFile = $request->file('detail.2.value');
                 $file = $originalFile;
-                $fileName = $reqDetail['surat_id'] . '-' . $value['tag'] . '-' . $originalFile->getClientOriginalName();
+                $fileName = $reqDetail['surat_id'] . '-' . $value['tag'] . $originalFile->getClientOriginalName();
                 Storage::disk('document_upload')->putFileAs('archive', $file, $fileName);
                 $reqDetail['value'] = $fileName;
             }
@@ -111,6 +135,27 @@ class SuratController extends Controller
         }
 
         return redirect('/surat/');
+    }
+
+    public function generateSuratPdf(Request $request)
+    {
+        $surat = Surat::find($request->id);
+        $parameterSurat = ParameterSurat::find($surat->parameter_surat_id);
+        $year = date("Y");
+        $counterCode = DB::select("SELECT COUNT(*) as total FROM surat
+        WHERE YEAR(printed_at) = YEAR('" . $year . "')
+        AND parameter_surat_id = " . $surat->parameter_surat_id)[0]->total;
+        $arrCodeSurat = [$parameterSurat->code_surat, $counterCode + 1];
+        $codeSurat = implode(" / ", $arrCodeSurat);
+        $data = [
+            'jenisSurat' => $parameterSurat->type_surat,
+            'codeSurat' => $codeSurat,
+            'bodySurat' => $request->bodySurat,
+        ];
+
+        $pdf = PDF::loadView('surat/generatePDF', $data);
+
+        return $pdf->download('fundaofwebit.pdf');
     }
 
     /**

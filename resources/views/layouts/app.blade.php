@@ -148,8 +148,8 @@
                             <li class="nav-item">
                                 <a href="{{ route('parametersurat') }}"
                                     class="nav-link @if (Request::is('parametersurat/*') || Request::is('parametersurat')) active @endif">
-                                    <i class="fas fa-hand-holding-usd nav-icon"></i>
-                                    <p>Parameter Surat</p>
+                                    <i class="fas fa-clipboard-list nav-icon"></i>
+                                    <p>Template Surat</p>
                                 </a>
                             </li>
                             <li class="nav-item">

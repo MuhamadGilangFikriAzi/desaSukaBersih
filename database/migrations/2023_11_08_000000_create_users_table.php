@@ -27,6 +27,7 @@ class CreateUsersTable extends Migration
             $table->string('tempat_lahir')->nullable();
             $table->dateTime('tanggal_lahir')->nullable();
             $table->string('no_kk')->nullable();
+            $table->string('pict_ktp')
             $table->rememberToken();
             $table->timestamps();
         });

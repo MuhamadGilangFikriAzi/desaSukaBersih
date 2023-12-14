@@ -12,7 +12,7 @@ class SuratDetail extends Model
     protected $guarded = [];
     protected $dates = ['deleted_at'];
 
-    public function parent()
+    public function surat()
     {
         return $this->belongsTo('App\Models\Surat', 'surat_id', 'id');
     }

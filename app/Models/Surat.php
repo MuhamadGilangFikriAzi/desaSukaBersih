@@ -17,7 +17,7 @@ class Surat extends Model
         return $this->belongsTo('App\Models\UserModel', 'last_admin_print', 'id');
     }
 
-    public function details()
+    public function detail()
     {
         return $this->hasMany('App\Models\SuratDetail', 'surat_id');
     }

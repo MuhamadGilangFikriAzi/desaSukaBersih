@@ -79,6 +79,9 @@
                                                     <button class="btn btn-outline-dark"><i
                                                             class="fas fa-trash"></i></button>
                                                 </a>
+                                                <button class="btn btn-outline-dark btn-print"
+                                                    data-id="{{ $data->id }}" data-toggle="modal"
+                                                    data-target="#print"><i class="fas fa-print"></i></button>
                                             </div>
                                         </td>
                                     </tr>
@@ -101,6 +104,37 @@
         </div>
     </div>
 
+    <div class="modal fade" id="print" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="print-title">Print Surat</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="print-body">
+                    <form id="generatePDF" action="{{ route('geerateSuratPDF') }}" method="post"
+                        enctype="multipart/form-data">
+                        @csrf
+                        <div class="form-group">
+                            <label>Surat</label>
+                            <textarea class="form-control editor" name="bodySurat"></textarea>
+                            <input type="hidden" name="id" class="hidden-id">
+                        </div>
+
+                        <button type="submit" id="form-submit" style="opacity: 0">submit</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary btn-generate-pdf">Print</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         $(document).ready(function() {
             $(document).on('click', '.reset-filter', function() {
@@ -109,6 +143,68 @@
                 var url = '{{ route('surat', ':id') }}';
                 url = url.replace(':id', '');
             });
+
+            // $('.bt-print').on('click', function() {
+            //     let id = $(this).attr('data-id');
+            //     console.log(id);
+            // })
+
+            $(document).on('click', '.btn-print', function() {
+                let id = $(this).attr('data-id');
+                $('.hidden-id').val(id);
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                    },
+                    method: "POST",
+                    url: "{{ route('getDataOnPrint') }}",
+                    data: {
+                        'id': id
+                    },
+                    success: function(data) {
+                        console.log(data)
+                        $('.editor').val(data.data.bodySurat);
+
+                        ClassicEditor
+                            .create(document.querySelector('.editor'), {
+                                toolbar: {
+                                    items: [
+                                        'fontFamily',
+                                        'fontSize',
+                                        'fontColor',
+                                        'bold',
+                                        'italic',
+                                        'underline',
+                                        'alignment',
+                                        'bulletedList',
+                                        'numberedList',
+                                        'outdent',
+                                        'indent',
+                                        'blockQuote',
+                                        'insertTable',
+                                        'undo',
+                                        'redo'
+                                    ]
+                                },
+                                language: 'en',
+                                table: {
+                                    contentToolbar: [
+                                        'tableColumn',
+                                        'tableRow',
+                                        'mergeTableCells'
+                                    ]
+                                }
+                            })
+                            .catch(error => {
+                                console.error(error);
+                            });
+                    }
+                });
+            })
+
+            $(document).on('click', '.btn-generate-pdf', function() {
+                $("#form-submit").click();
+            })
         });
     </script>
 @endsection
