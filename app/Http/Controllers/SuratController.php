@@ -2,15 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ParameterSurat;
 use App\Models\Surat;
 use App\Models\SuratDetail;
+use App\Models\TemplateSurat;
 use DB;
 use Illuminate\Http\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use PDF;
 
 class SuratController extends Controller
 {
@@ -28,7 +27,7 @@ class SuratController extends Controller
         $list = Surat::query();
         $filter = [
             'id' => '',
-            'parameter_surat_id' => '',
+            'template_surat_id' => '',
             'created_at' => '',
         ];
         //dd($request->id);
@@ -36,33 +35,33 @@ class SuratController extends Controller
             $list = $list->where('id', '=', $request->id);
             $filter['id'] = $request->id;
         }
-        if ($request->parameter_surat_id != "") {
-            $list = $list->where('parameter_surat_id', '=', $request->parameter_surat_id);
-            $filter['parameter_surat_id'] = $request->parameter_surat_id;
+        if ($request->template_surat_id != "") {
+            $list = $list->where('template_surat_id', '=', $request->template_surat_id);
+            $filter['template_surat_id'] = $request->template_surat_id;
         }
         if ($request->created_at) {
             $list = $list->whereDate('created_at', $request->created_at);
             $filter['created_at'] = $request->created_at;
         }
 
-        $list = $list->with(['parameter_surat'])->paginate('10');
-        $listParameterSurat = ParameterSurat::all();
+        $list = $list->with(['template_surat'])->paginate('10');
+        $listTemplateSurat = TemplateSurat::all();
         $count = $list->count();
-        return view('surat/index', compact('list', 'listParameterSurat', 'count', 'filter'));
+        return view('surat/index', compact('list', 'listTemplateSurat', 'count', 'filter'));
     }
 
     public function create()
     {
-        $listParameterSurat = ParameterSurat::all();
+        $listTemplateSurat = TemplateSurat::all();
 
-        return view('surat/create', compact('listParameterSurat'));
+        return view('surat/create', compact('listTemplateSurat'));
     }
 
     public function onChangeTypeSurat(Request $request)
     {
-        $details = ParameterSurat::find($request->id);
+        $details = TemplateSurat::find($request->id);
         return response()->json(['data' => [
-            'details' => $details->ParameterSuratDetails()->get(),
+            'details' => $details->TemplateSuratDetails()->get(),
             'surat' => $details,
         ]]);
     }
@@ -97,11 +96,11 @@ class SuratController extends Controller
     public function store(Request $request)
     {
         $message = [
-            'parameter_surat_id.required' => '*Tipe Surat Wajib Diisi',
+            'template_surat_id.required' => '*Tipe Surat Wajib Diisi',
         ];
 
         $arrValidate = [
-            'parameter_surat_id' => 'required',
+            'template_surat_id' => 'required',
         ];
         foreach ($request->detail as $key => $value) {
             if ($value['input_type'] != 'dokumen') {
@@ -112,9 +111,9 @@ class SuratController extends Controller
 
         $this->validate($request, $arrValidate, $message);
 
-        $templateSurat = ParameterSurat::find($request->parameter_surat_id);
+        $templateSurat = TemplateSurat::find($request->template_surat_id);
         $reqSurat = [
-            'parameter_surat_id' => $templateSurat->id,
+            'template_surat_id' => $templateSurat->id,
             'body_surat' => $templateSurat->body_surat,
             'user_id' => Auth::id(),
         ];
@@ -140,22 +139,24 @@ class SuratController extends Controller
     public function generateSuratPdf(Request $request)
     {
         $surat = Surat::find($request->id);
-        $parameterSurat = ParameterSurat::find($surat->parameter_surat_id);
+        $TemplateSurat = TemplateSurat::find($surat->template_surat_id);
         $year = date("Y");
         $counterCode = DB::select("SELECT COUNT(*) as total FROM surat
         WHERE YEAR(printed_at) = YEAR('" . $year . "')
-        AND parameter_surat_id = " . $surat->parameter_surat_id)[0]->total;
-        $arrCodeSurat = [$parameterSurat->code_surat, $counterCode + 1];
+        AND template_surat_id = " . $surat->template_surat_id)[0]->total;
+        $arrCodeSurat = [$TemplateSurat->code_surat, $counterCode + 1];
         $codeSurat = implode(" / ", $arrCodeSurat);
         $data = [
-            'jenisSurat' => $parameterSurat->type_surat,
+            'jenisSurat' => $TemplateSurat->type_surat,
             'codeSurat' => $codeSurat,
             'bodySurat' => $request->bodySurat,
         ];
 
-        $pdf = PDF::loadView('surat/generatePDF', $data);
-
-        return $pdf->download('fundaofwebit.pdf');
+        $jenisSurat = $TemplateSurat->type_surat;
+        $bodySurat = $request->bodySurat;
+        return view('surat/generatePDF', compact('jenisSurat', 'codeSurat', 'bodySurat'));
+        // $pdf = PDF::loadView('surat/generatePDF', $data);
+        // return $pdf->download($surat->id . '-' . time() . '.pdf');
     }
 
     /**

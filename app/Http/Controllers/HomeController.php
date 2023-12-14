@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ParameterSurat;
+use App\Models\TemplateSurat;
 use App\User;
 use Illuminate\Http\Request;
 use Image;
@@ -46,20 +46,20 @@ class HomeController extends Controller
         // return auth()->user()->permissions;
 
         // //mengambil seluruh data
-        $all = ParameterSurat::all();
+        $all = TemplateSurat::all();
         //menjumlahkan seluruh isi dari table total
         $sumall = $all->sum('total');
         //Menjumlahkan seluruh data yg ada
         $data = $all->count();
         $currentMonth = date('m');
         //mengambil data berdasarkan bulan ini
-        $month = ParameterSurat::whereRaw('MONTH(created_at) = ?', [$currentMonth])->get();
+        $month = TemplateSurat::whereRaw('MONTH(created_at) = ?', [$currentMonth])->get();
         //menjumlahkan seluruh isi dari table total berdasarkan bulan ini
         $sum = $month->sum('total');
         //menghitung jumlah data yang ada pada bulan ini
         $countmonth = $month->count();
 
-        $post = ParameterSurat::orderBy('created_at', 'DESC')->limit(5)->get();
+        $post = TemplateSurat::orderBy('created_at', 'DESC')->limit(5)->get();
         $sumpost = $post->sum('total');
         return view('home.dashboard', compact('month', 'countmonth', 'data', 'sum', 'sumall', 'post', 'sumpost'));
 

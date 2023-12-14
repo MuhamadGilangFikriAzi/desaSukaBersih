@@ -4,7 +4,7 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header"><b>Add Parameter Surat</b>
+                <div class="card-header"><b>Tambah Template Surat</b>
                 </div>
 
                 <div class="card-body">
@@ -13,7 +13,7 @@
                             {{ session('status') }}
                         </div>
                     @endif
-                    <form action="{{ route('parametersuratstore') }}" method="post" enctype="multipart/form-data">
+                    <form action="{{ route('templatesuratstore') }}" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group">
                             <label>Type Surat</label>
@@ -45,15 +45,15 @@
                                 </div>
                                 <div class="row row-inputan my-1" data-id="0">
                                     <div class="col-md-3">
-                                        <input type="text" name="parametersuratdetail[0][label]"
+                                        <input type="text" name="TemplateSuratdetail[0][label]"
                                             placeholder="Masukan Label" class="form-control">
                                     </div>
                                     <div class="col-md-3">
-                                        <input type="text" name="parametersuratdetail[0][tag]"
+                                        <input type="text" name="TemplateSuratdetail[0][tag]"
                                             placeholder="Masukan tag (tanpa spasi)" class="form-control">
                                     </div>
                                     <div class="col-md-3">
-                                        <select name="parametersuratdetail[0][input_type]" class="custom-select">
+                                        <select name="TemplateSuratdetail[0][input_type]" class="custom-select">
                                             <option selected>Pilih...</option>
                                             <option value="text">Text</option>
                                             <option value="date">Tanggal</option>
@@ -89,15 +89,15 @@
                 $("#inputan").append(`
                 <div class="row row-inputan my-1" data-id="${i}">
                     <div class="col-md-3">
-                        <input type="text" name="parametersuratdetail[${i}][label]"
+                        <input type="text" name="TemplateSuratdetail[${i}][label]"
                             placeholder="Masukan Label" class="form-control">
                     </div>
                     <div class="col-md-3">
-                        <input type="text" name="parametersuratdetail[${i}][tag]"
+                        <input type="text" name="TemplateSuratdetail[${i}][tag]"
                             placeholder="Masukan tag (tanpa spasi)" class="form-control">
                     </div>
                     <div class="col-md-3">
-                        <select name="parametersuratdetail[${i}][input_type]" class="custom-select">
+                        <select name="TemplateSuratdetail[${i}][input_type]" class="custom-select">
                             <option selected>Pilih...</option>
                             <option value="text">Text</option>
                             <option value="date">Tanggal</option>

@@ -4,10 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ParameterSurat extends Model
+class TemplateSurat extends Model
 {
 
-    protected $table = "parameter_surat";
+    protected $table = "template_surat";
     public $timestamps = true;
     protected $guarded = [];
     protected $dates = ['deleted_at'];
@@ -17,13 +17,13 @@ class ParameterSurat extends Model
         return $this->belongsTo('App\Models\UserModel', 'admin_id', 'id');
     }
 
-    public function parameterSuratDetails()
+    public function TemplateSuratDetails()
     {
-        return $this->hasMany(ParameterSuratDetail::class);
+        return $this->hasMany(TemplateSuratDetail::class);
     }
 
     public function surat()
     {
-        return $this->belongsTo('App\Models\Surat', 'id', 'parameter_surat_id');
+        return $this->belongsTo('App\Models\Surat', 'id', 'template_surat_id');
     }
 }

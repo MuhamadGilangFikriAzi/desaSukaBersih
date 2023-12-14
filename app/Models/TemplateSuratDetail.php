@@ -4,16 +4,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ParameterSuratDetail extends Model
+class TemplateSuratDetail extends Model
 {
 
-    protected $table = "parameter_surat_detail";
+    protected $table = "template_surat_detail";
     public $timestamps = true;
     protected $guarded = [];
     protected $dates = ['deleted_at'];
 
-    public function parameterSurat()
+    public function TemplateSurat()
     {
-        return $this->belongsTo(ParameterSurat::class);
+        return $this->belongsTo(TemplateSurat::class);
     }
 }

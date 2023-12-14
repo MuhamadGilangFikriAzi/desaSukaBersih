@@ -20,11 +20,11 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Type Surat</label>
-                                    <select name="parameter_surat_id" class="custom-select filter" id="type_surat">
+                                    <select name="template_surat_id" class="custom-select filter" id="type_surat">
                                         <option selected value="">Pilih...</option>
-                                        @foreach ($listParameterSurat as $item)
+                                        @foreach ($listTemplateSurat as $item)
                                             <option value="{{ $item->id }}"
-                                                @if ($filter['parameter_surat_id'] == $item->id) selected @endif>{{ $item->type_surat }}
+                                                @if ($filter['template_surat_id'] == $item->id) selected @endif>{{ $item->type_surat }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -67,15 +67,15 @@
                                 @foreach ($list as $key => $data)
                                     <tr>
                                         <td><b>{{ $data->id }}</b></td>
-                                        <td>{{ $data->parameter_surat->type_surat }}</td>
+                                        <td>{{ $data->template_surat->type_surat }}</td>
                                         <td>{{ date('d M Y', strtotime($data->created_at)) }}</td>
                                         <td>
                                             <div>
-                                                <a href="{{ url('/parametersurat/edit/' . $data->id . '') }}">
+                                                <a href="{{ url('/TemplateSurat/edit/' . $data->id . '') }}">
                                                     <button class="btn btn-outline-dark"><i
                                                             class="fas fa-edit"></i></button>
                                                 </a>
-                                                <a href="{{ url('/parametersurat/destroy/' . $data->id . '') }}">
+                                                <a href="{{ url('/TemplateSurat/destroy/' . $data->id . '') }}">
                                                     <button class="btn btn-outline-dark"><i
                                                             class="fas fa-trash"></i></button>
                                                 </a>

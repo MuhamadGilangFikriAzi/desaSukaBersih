@@ -22,8 +22,8 @@ class Surat extends Model
         return $this->hasMany('App\Models\SuratDetail', 'surat_id');
     }
 
-    public function parameter_surat()
+    public function template_surat()
     {
-        return $this->hasOne('App\Models\ParameterSurat', 'id', 'parameter_surat_id');
+        return $this->hasOne('App\Models\TemplateSurat', 'id', 'template_surat_id');
     }
 }

@@ -27,13 +27,13 @@ Route::get('edit-data', 'AuthorizationController@editData');
 Route::get('update-data', 'AuthorizationController@updateData');
 Route::get('delete-data', 'AuthorizationController@deleteData');
 
-Route::prefix('parametersurat')->group(function () {
-    Route::get('/', 'ParameterSuratController@index')->name('parametersurat');
-    Route::get('create', 'ParameterSuratController@create')->name('parametersuratcreate');
-    Route::post('create/store', 'ParameterSuratController@store')->name('parametersuratstore');
-    Route::get('edit/{id}', 'ParameterSuratController@edit')->name('parametersuratedit');
-    Route::put('edit/update/{id}', 'ParameterSuratController@update')->name('parametersuratupdate');
-    Route::delete('destroy/{id}', 'ParameterSuratController@destroy')->name('parametersuratdestroy');
+Route::prefix('TemplateSurat')->group(function () {
+    Route::get('/', 'TemplateSuratController@index')->name('templatesurat');
+    Route::get('create', 'TemplateSuratController@create')->name('templatesuratcreate');
+    Route::post('create/store', 'TemplateSuratController@store')->name('templatesuratstore');
+    Route::get('edit/{id}', 'TemplateSuratController@edit')->name('templatesuratedit');
+    Route::put('edit/update/{id}', 'TemplateSuratController@update')->name('templatesuratupdate');
+    Route::delete('destroy/{id}', 'TemplateSuratController@destroy')->name('templatesuratdestroy');
 });
 
 Route::prefix('surat')->group(function () {

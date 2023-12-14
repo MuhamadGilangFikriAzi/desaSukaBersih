@@ -146,8 +146,8 @@
                                 </a>
 
                             <li class="nav-item">
-                                <a href="{{ route('parametersurat') }}"
-                                    class="nav-link @if (Request::is('parametersurat/*') || Request::is('parametersurat')) active @endif">
+                                <a href="{{ route('templatesurat') }}"
+                                    class="nav-link @if (Request::is('templatesurat/*') || Request::is('templatesurat')) active @endif">
                                     <i class="fas fa-clipboard-list nav-icon"></i>
                                     <p>Template Surat</p>
                                 </a>

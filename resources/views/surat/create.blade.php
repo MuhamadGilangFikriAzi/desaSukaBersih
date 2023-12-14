@@ -17,9 +17,9 @@
                         @csrf
                         <div class="form-group">
                             <label>Type Surat</label>
-                            <select name="parameter_surat_id" class="custom-select" id="type_surat">
+                            <select name="template_surat_id" class="custom-select" id="type_surat">
                                 <option selected>Pilih...</option>
-                                @foreach ($listParameterSurat as $item)
+                                @foreach ($listTemplateSurat as $item)
                                     <option value="{{ $item->id }}">{{ $item->type_surat }}</option>
                                 @endforeach
                             </select>

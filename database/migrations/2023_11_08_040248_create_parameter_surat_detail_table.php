@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateParameterSuratDetailTable extends Migration
+class CreateTemplateSuratDetailTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class CreateParameterSuratDetailTable extends Migration
      */
     public function up()
     {
-        Schema::create('parameter_surat_detail', function (Blueprint $table) {
+        Schema::create('template_surat_detail', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('parameter_surat_id');
+            $table->integer('template_surat_id');
             $table->string('label', 100)->nullable();
             $table->string('tag');
             $table->string('input_type');
@@ -30,6 +30,6 @@ class CreateParameterSuratDetailTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('parameter_surat_detail');
+        Schema::dropIfExists('template_surat_detail');
     }
 }

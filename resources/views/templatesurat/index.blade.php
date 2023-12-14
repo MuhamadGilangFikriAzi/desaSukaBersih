@@ -4,14 +4,14 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header text-left"><b>Parameter Surat</b></div>
+                <div class="card-header text-left"><b>Template Surat</b></div>
                 <div class="row p-3">
                     <div class="col-sm-12">
                         <label>Filter</label>
                     </div>
                     <div class="col-sm-12">
-                        <form action="{{ route('parametersurat') }}" method="get" enctype="multipart/form-data"
-                            class="row" id="filter">
+                        <form action="{{ route('templatesurat') }}" method="get" enctype="multipart/form-data" class="row"
+                            id="filter">
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label>ID</label>
@@ -41,7 +41,7 @@
                                     <th><b>ID</b></th>
                                     <th><b>Jenis Surat</b></th>
                                     <th><b>Tanggal Buat</b></th>
-                                    <th><b><a href="{{ route('parametersuratcreate') }}">
+                                    <th><b><a href="{{ route('templatesuratcreate') }}">
                                                 <button type="button" class="btn btn-outline-dark"><i
                                                         class="fas fa-plus"></i> Tambah Parameter
                                                     Surat</button>
@@ -56,11 +56,11 @@
                                         <td>{{ date('d M Y', strtotime($data->created_at)) }}</td>
                                         <td>
                                             <div>
-                                                <a href="{{ url('/parametersurat/edit/' . $data->id . '') }}">
+                                                <a href="{{ url('/TemplateSurat/edit/' . $data->id . '') }}">
                                                     <button class="btn btn-outline-dark"><i
                                                             class="fas fa-edit"></i></button>
                                                 </a>
-                                                <a href="{{ url('/parametersurat/destroy/' . $data->id . '') }}">
+                                                <a href="{{ url('/TemplateSurat/destroy/' . $data->id . '') }}">
                                                     <button class="btn btn-outline-dark"><i
                                                             class="fas fa-trash"></i></button>
                                                 </a>

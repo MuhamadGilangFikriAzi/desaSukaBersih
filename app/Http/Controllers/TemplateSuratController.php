@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ParameterSurat;
-use App\Models\ParameterSuratDetail;
+use App\Models\TemplateSurat;
+use App\Models\TemplateSuratDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class ParameterSuratController extends Controller
+class TemplateSuratController extends Controller
 {
     public function __construct()
     {
@@ -20,7 +20,7 @@ class ParameterSuratController extends Controller
      */
     public function index(Request $request)
     {
-        $list = ParameterSurat::query();
+        $list = TemplateSurat::query();
         $filter = [
             'id' => '',
             'type_surat' => '',
@@ -32,18 +32,18 @@ class ParameterSuratController extends Controller
         }
         if ($request->type_surat) {
             $list = $list->where('type_surat', 'like', '%' . $request->type_surat . '%');
-            $filter['type_surat'] = $request->parameter_surat_id;
+            $filter['type_surat'] = $request->template_surat_id;
         }
 
         $list = $list->paginate('10');
 
-        $count = ParameterSurat::all()->count();
-        return view('parametersurat/index', compact('list', 'count', 'filter'));
+        $count = TemplateSurat::all()->count();
+        return view('templatesurat/index', compact('list', 'count', 'filter'));
     }
 
     public function create()
     {
-        return view('parametersurat/create');
+        return view('templatesurat/create');
     }
 
     public function store(Request $request)
@@ -57,17 +57,17 @@ class ParameterSuratController extends Controller
             'code_surat' => 'required',
         ], $message);
 
-        $data = $request->except('_token', 'submit', 'parametersuratdetail');
+        $data = $request->except('_token', 'submit', 'TemplateSuratdetail');
         $data['admin_id'] = Auth::id();
         $data['is_active'] = 'Y';
-        $parameterSuratDetail = $request->parametersuratdetail;
-        $paramData = ParameterSurat::create($data);
-        foreach ($parameterSuratDetail as $detail) {
-            $detail["parameter_surat_id"] = $paramData->id;
+        $TemplateSuratDetail = $request->TemplateSuratdetail;
+        $paramData = TemplateSurat::create($data);
+        foreach ($TemplateSuratDetail as $detail) {
+            $detail["template_surat_id"] = $paramData->id;
 
-            ParameterSuratDetail::create($detail);
+            TemplateSuratDetail::create($detail);
         }
-        return redirect('/parametersurat/');
+        return redirect('/TemplateSurat/');
     }
 
     /**
