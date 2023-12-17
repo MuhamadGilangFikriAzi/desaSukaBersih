@@ -67,11 +67,11 @@
                                         </a>
                                     @endif
                                 </div>
-                                {{-- <div class="text-center">
+                                <div class="text-center">
                                     @if (Route::has('register'))
                                         <a class="small" href="{{ route('register') }}">Create an Account!</a>
                                     @endif
-                                </div> --}}
+                                </div>
 
                             </div>
                         </div>

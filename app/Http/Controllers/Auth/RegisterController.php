@@ -7,6 +7,7 @@ use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Image;
 
 class RegisterController extends Controller
 {
@@ -50,7 +51,8 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'nik' => ['required', 'string', 'min:16', 'max:255', 'unique:users'],
+            'ktp' => ['file', 'required', 'mimes:jpg,jpeg,png'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
     }
@@ -63,9 +65,24 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        if (!empty($data["ktp"])) {
+            $path = public_path('/img/ktp/');
+
+            $originalImage = $data['ktp'];
+            $Image = Image::make($originalImage);
+            $Image->resize(540, 360);
+            $fileName = $data['nik'] . "-" . $originalImage->getClientOriginalName();
+            if (!file_exists($path)) {
+                mkdir($path, 666, true);
+            }
+            $Image->save($path . $fileName);
+            $data['ktp'] = $fileName;
+        }
+
         return User::create([
             'name' => $data['name'],
-            'email' => $data['email'],
+            'nik' => $data['nik'],
+            'ktp' => $data['ktp'],
             'password' => Hash::make($data['password']),
         ]);
     }

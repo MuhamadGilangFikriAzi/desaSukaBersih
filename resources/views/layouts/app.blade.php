@@ -28,6 +28,10 @@
     <link rel="stylesheet" href="{{ asset('adminlte/plugins/summernote/summernote-bs4.css') }}">
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    {{-- Font for tinymce --}}
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Oswald&display=swap');
+    </style>
 
     <!-- Core JS files -->
     <script src="{{ url('limitless/global_assets/js/main/jquery.min.js') }}"></script>
@@ -59,15 +63,9 @@
     <script type="text/javascript">
         $(document).ready(setup_web_print);
     </script>
-
-    <style>
-        .ck-editor__editable[role="textbox"] {
-            /* editing area */
-            min-height: 500px;
-            max-height: 500px;
-        }
-    </style>
-
+    {{-- <script src="{{ url('js/build/ckeditor.js') }}"></script> --}}
+    <script src="https://cdn.tiny.cloud/1/lay6ickwk8ow14zhlwnva7j60vzbeubnrysij6x10v6hver5/tinymce/6/tinymce.min.js"
+        referrerpolicy="origin"></script>
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed" style="height: auto;">

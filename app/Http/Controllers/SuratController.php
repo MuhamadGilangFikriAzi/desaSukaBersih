@@ -9,7 +9,7 @@ use DB;
 use Illuminate\Http\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
+use PDF;
 
 class SuratController extends Controller
 {
@@ -152,11 +152,12 @@ class SuratController extends Controller
             'bodySurat' => $request->bodySurat,
         ];
 
-        $jenisSurat = $TemplateSurat->type_surat;
-        $bodySurat = $request->bodySurat;
-        return view('surat/generatePDF', compact('jenisSurat', 'codeSurat', 'bodySurat'));
-        // $pdf = PDF::loadView('surat/generatePDF', $data);
-        // return $pdf->download($surat->id . '-' . time() . '.pdf');
+        // $jenisSurat = $TemplateSurat->type_surat;
+        // $bodySurat = $request->bodySurat;
+        // return view('surat/generatePDF', compact('jenisSurat', 'codeSurat', 'bodySurat'));
+        $pdf = PDF::loadView('surat/generatePDF', $data);
+        $pdf->setPaper("a4", "potrait");
+        return $pdf->download($surat->id . '-' . time() . '.pdf');
     }
 
     /**

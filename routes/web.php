@@ -27,7 +27,7 @@ Route::get('edit-data', 'AuthorizationController@editData');
 Route::get('update-data', 'AuthorizationController@updateData');
 Route::get('delete-data', 'AuthorizationController@deleteData');
 
-Route::prefix('TemplateSurat')->group(function () {
+Route::prefix('templatesurat')->group(function () {
     Route::get('/', 'TemplateSuratController@index')->name('templatesurat');
     Route::get('create', 'TemplateSuratController@create')->name('templatesuratcreate');
     Route::post('create/store', 'TemplateSuratController@store')->name('templatesuratstore');
