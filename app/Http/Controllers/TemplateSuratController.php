@@ -67,7 +67,7 @@ class TemplateSuratController extends Controller
 
             TemplateSuratDetail::create($detail);
         }
-        return redirect('/TemplateSurat/');
+        return redirect('/templatesurat/');
     }
 
     /**
@@ -89,7 +89,10 @@ class TemplateSuratController extends Controller
      */
     public function edit($id)
     {
-        //
+        $templateSurat = TemplateSurat::find($id);
+        $templateSuratDetail = $templateSurat->TemplateSuratDetails()->get();
+        // dd($templateSuratDetail);
+        return view('templatesurat/edit', compact('templateSurat', 'templateSuratDetail'));
     }
 
     /**

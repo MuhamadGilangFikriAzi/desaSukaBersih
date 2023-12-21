@@ -13,9 +13,11 @@
                 <div class="card-body p-0">
                     <!-- Nested Row within Card Body -->
                     <div class="row">
-                        <div class="col-lg-6 d-none d-sm-block bg-login-image">
+                        <div class="col-lg-6 d-none bg-login-image d-flex justify-content-center align-items-center"
+                            style="height: 80%">
                             <img src="{{ asset('img/kab-logo.png') }}" alt="img"
-                                style="width: 105%; background-color: white; height: 100%;">
+                                style="width: 60%; background-color: white; height: 60%;"
+                                class=" d-flex justify-content-center">
                         </div>
                         <div class="col-lg-6">
                             <div class="p-5">
@@ -28,7 +30,7 @@
                                         <input id="username" type="text"
                                             class="form-control @error('username') is-invalid @enderror" name="nik"
                                             placeholder="Enter NIK..." value="{{ old('username') }}" required
-                                            autocomplete="NIK" autofocus>
+                                            autocomplete="NIK" autofocus maxlength="16">
 
                                         @error('username')
                                             <span class="invalid-feedback" role="alert">
@@ -60,16 +62,16 @@
                                     </button>
                                 </form>
                                 <hr>
-                                <div class="text-center">
+                                {{-- <div class="text-center">
                                     @if (Route::has('password.request'))
                                         <a class="small" href="{{ route('password.request') }}">
                                             {{ __('Forgot Your Password?') }}
                                         </a>
                                     @endif
-                                </div>
+                                </div> --}}
                                 <div class="text-center">
                                     @if (Route::has('register'))
-                                        <a class="small" href="{{ route('register') }}">Create an Account!</a>
+                                        <a class="small" href="{{ route('register') }}">Buat Akun!</a>
                                     @endif
                                 </div>
 

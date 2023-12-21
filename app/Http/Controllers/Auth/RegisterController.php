@@ -71,7 +71,7 @@ class RegisterController extends Controller
             $originalImage = $data['ktp'];
             $Image = Image::make($originalImage);
             $Image->resize(540, 360);
-            $fileName = $data['nik'] . "-" . $originalImage->getClientOriginalName();
+            $fileName = $data['nik'] . "-ktp-." . $originalImage->getClientOriginalExtension();
             if (!file_exists($path)) {
                 mkdir($path, 666, true);
             }
@@ -79,11 +79,15 @@ class RegisterController extends Controller
             $data['ktp'] = $fileName;
         }
 
-        return User::create([
+        $user = User::create([
             'name' => $data['name'],
             'nik' => $data['nik'],
             'ktp' => $data['ktp'],
             'password' => Hash::make($data['password']),
         ]);
+
+        $user->assignRole('Guest');
+
+        return $user;
     }
 }

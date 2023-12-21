@@ -15,7 +15,7 @@
                         <div class="col-lg-12">
                             <div class="p-5">
                                 <div class="text-center">
-                                    <h1 class="h4 text-gray-900 mb-4">Register</h1>
+                                    <h1 class="h4 text-gray-900 mb-4">Daftar Akun</h1>
                                 </div>
 
                                 <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
@@ -75,7 +75,7 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label>Password Confirm</label>
+                                        <label>Password Konfirmasi</label>
                                         <input id="password-confirm" type="password" class="form-control"
                                             name="password_confirmation" placeholder="password_confirmation" required
                                             autocomplete="new-password">
@@ -83,12 +83,10 @@
 
                                     <div class="form-group row mb-0">
                                         <button type="submit" class="btn btn-dark" style="width: 100%;">
-                                            {{ __('Register') }}
+                                            {{ __('Daftar') }}
                                         </button>
-                                        <a href="{{ route('login') }}" style="width: 100%;">
-                                            <button class="btn btn-dark my-2" style="width: 100%;">
-                                                Back
-                                            </button>
+                                        <a href="{{ route('login') }}" style="width: 100%;" class="btn btn-dark my-2">
+                                            Kembali
                                         </a>
                                     </div>
                                 </form>

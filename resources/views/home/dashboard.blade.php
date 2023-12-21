@@ -51,6 +51,11 @@
     <!-- content -->
     <div class="container">
         <div class="row">
+            @role('Guest')
+                <div class="alert alert-error col-sm-12 text-center" role="alert">
+                    Akun belum diverifikasi oleh Staff Desa!
+                </div>
+            @endrole
             {{-- <div class="col-xs-12 col-sm-6 col-lg-6">
 					<div class="card my-2">
 						<div class="box">

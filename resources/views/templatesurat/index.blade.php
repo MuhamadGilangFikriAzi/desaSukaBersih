@@ -43,7 +43,7 @@
                                     <th><b>Tanggal Buat</b></th>
                                     <th><b><a href="{{ route('templatesuratcreate') }}">
                                                 <button type="button" class="btn btn-outline-dark"><i
-                                                        class="fas fa-plus"></i> Tambah Parameter
+                                                        class="fas fa-plus"></i> Tambah Template
                                                     Surat</button>
                                             </a></b></th>
                                 </tr>
@@ -56,7 +56,7 @@
                                         <td>{{ date('d M Y', strtotime($data->created_at)) }}</td>
                                         <td>
                                             <div>
-                                                <a href="{{ url('/TemplateSurat/edit/' . $data->id . '') }}">
+                                                <a href="{{ url('/templatesurat/edit/' . $data->id . '') }}">
                                                     <button class="btn btn-outline-dark"><i
                                                             class="fas fa-edit"></i></button>
                                                 </a>

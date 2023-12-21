@@ -9,6 +9,7 @@ use DB;
 use Illuminate\Http\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use PDF;
 
 class SuratController extends Controller
@@ -124,7 +125,7 @@ class SuratController extends Controller
             $reqDetail['surat_id'] = $respSurat->id;
 
             if ($value['input_type'] == 'document' && $request->hasfile('detail.' . $key . '.value')) {
-                $originalFile = $request->file('detail.2.value');
+                $originalFile = $request->file('detail.' . $key . '.value');
                 $file = $originalFile;
                 $fileName = $reqDetail['surat_id'] . '-' . $value['tag'] . $originalFile->getClientOriginalName();
                 Storage::disk('document_upload')->putFileAs('archive', $file, $fileName);

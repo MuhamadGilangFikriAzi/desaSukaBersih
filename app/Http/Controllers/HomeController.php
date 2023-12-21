@@ -31,8 +31,8 @@ class HomeController extends Controller
         // return auth()->user()->removeRole($role);
         //auth()->user()->assignRole('Admin');
 
-        // $role = Role::create(['name' => 'Admin']);
-        // auth()->user()->assignRole('Admin');
+        // $role = Role::create(['name' => 'User']);
+        // auth()->user()->assignRole('Staff Desa');
         // $permission = Permission::create(['name' => 'update post']);
 
         // $permission->assignRole($role);
@@ -44,7 +44,6 @@ class HomeController extends Controller
 
         // auth()->user()->givePermissionTo('edit post');
         // return auth()->user()->permissions;
-
         // //mengambil seluruh data
         $all = TemplateSurat::all();
         //menjumlahkan seluruh isi dari table total
@@ -61,6 +60,7 @@ class HomeController extends Controller
 
         $post = TemplateSurat::orderBy('created_at', 'DESC')->limit(5)->get();
         $sumpost = $post->sum('total');
+
         return view('home.dashboard', compact('month', 'countmonth', 'data', 'sum', 'sumall', 'post', 'sumpost'));
 
     }

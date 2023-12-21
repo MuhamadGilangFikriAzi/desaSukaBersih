@@ -54,11 +54,13 @@
                                     <th><b>Tanggal Buat</b></th>
                                     <th>
                                         <b>
-                                            <a href="{{ route('suratcreate') }}">
-                                                <button type="button" class="btn btn-outline-dark"><i
-                                                        class="fas fa-plus"></i> Tambah
-                                                    Surat</button>
-                                            </a>
+                                            @role('User')
+                                                <a href="{{ route('suratcreate') }}">
+                                                    <button type="button" class="btn btn-outline-dark"><i
+                                                            class="fas fa-plus"></i> Tambah
+                                                        Surat</button>
+                                                </a>
+                                            @endrole
                                         </b>
                                     </th>
                                 </tr>
@@ -71,17 +73,21 @@
                                         <td>{{ date('d M Y', strtotime($data->created_at)) }}</td>
                                         <td>
                                             <div>
-                                                <a href="{{ url('/TemplateSurat/edit/' . $data->id . '') }}">
-                                                    <button class="btn btn-outline-dark"><i
-                                                            class="fas fa-edit"></i></button>
-                                                </a>
-                                                <a href="{{ url('/TemplateSurat/destroy/' . $data->id . '') }}">
-                                                    <button class="btn btn-outline-dark"><i
-                                                            class="fas fa-trash"></i></button>
-                                                </a>
-                                                <button class="btn btn-outline-dark btn-print"
-                                                    data-id="{{ $data->id }}" data-toggle="modal"
-                                                    data-target="#print"><i class="fas fa-print"></i></button>
+                                                @role('User')
+                                                    <a href="{{ url('/TemplateSurat/edit/' . $data->id . '') }}">
+                                                        <button class="btn btn-outline-dark"><i
+                                                                class="fas fa-edit"></i></button>
+                                                    </a>
+                                                    <a href="{{ url('/TemplateSurat/destroy/' . $data->id . '') }}">
+                                                        <button class="btn btn-outline-dark"><i
+                                                                class="fas fa-trash"></i></button>
+                                                    </a>
+                                                @endrole
+                                                @role('Staff Desa')
+                                                    <button class="btn btn-outline-dark btn-print"
+                                                        data-id="{{ $data->id }}" data-toggle="modal"
+                                                        data-target="#print"><i class="fas fa-print"></i></button>
+                                                @endrole
                                             </div>
                                         </td>
                                     </tr>

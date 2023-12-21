@@ -10,6 +10,7 @@ class UserModel extends Model
     protected $fillable = [
         'name', 'nik', 'password', 'ktp',
     ];
+    public $timestamps = true;
     protected $guarded = [];
 
 }

@@ -11,6 +11,4 @@ class Schedule extends Model
     protected $guarded = [];
     public $timestamps = false;
     protected $dates = ['deleted_at'];
-
-    
 }

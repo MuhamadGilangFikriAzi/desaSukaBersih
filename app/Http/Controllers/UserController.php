@@ -25,6 +25,23 @@ class userController extends Controller
         return view('user.list', compact('list', 'data'));
     }
 
+    public function getDataUserByID(Request $request)
+    {
+        $data = User::find($request->id);
+        return response()->json(['data' => [
+            'data' => $data,
+            'role' => $data->roles->pluck('name')[0],
+        ]]);
+    }
+
+    public function giveUserRole(Request $request)
+    {
+        $data = User::find($request->id);
+        $data->roles()->detach();
+        $data->assignRole($request->role);
+        return response()->json(['data' => "Success"]);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -34,6 +51,7 @@ class userController extends Controller
     {
         return view('user.add_data');
     }
+
     public function create(Request $request)
     {
         $message = [

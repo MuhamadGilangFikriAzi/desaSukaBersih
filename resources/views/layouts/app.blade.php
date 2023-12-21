@@ -66,6 +66,9 @@
     {{-- <script src="{{ url('js/build/ckeditor.js') }}"></script> --}}
     <script src="https://cdn.tiny.cloud/1/lay6ickwk8ow14zhlwnva7j60vzbeubnrysij6x10v6hver5/tinymce/6/tinymce.min.js"
         referrerpolicy="origin"></script>
+    {{-- Sweat Allert --}}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed" style="height: auto;">
@@ -142,40 +145,49 @@
                                         Dashboard
                                     </p>
                                 </a>
-
-                            <li class="nav-item">
-                                <a href="{{ route('templatesurat') }}"
-                                    class="nav-link @if (Request::is('templatesurat/*') || Request::is('templatesurat')) active @endif">
-                                    <i class="fas fa-clipboard-list nav-icon"></i>
-                                    <p>Template Surat</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{ url('surat') }}"
-                                    class="nav-link @if (Request::is('surat/*') || Request::is('surat')) active @endif">
-                                    <i class="fas fa-clipboard-list nav-icon"></i>
-                                    <p>Surat</p>
-                                </a>
                             </li>
 
+                            @role('Staff Desa')
+                                <li class="nav-item">
+                                    <a href="{{ route('templatesurat') }}"
+                                        class="nav-link @if (Request::is('templatesurat/*') || Request::is('templatesurat')) active @endif">
+                                        <i class="fas fa-clipboard-list nav-icon"></i>
+                                        <p>Template Surat</p>
+                                    </a>
+                                </li>
+                            @endrole
 
-                            <li class="nav-item has-treeview">
-                                <a href="#" class="nav-link">
-                                    <i class="nav-icon fas fa-sliders-h"></i>
-                                    <p>
-                                        Settings
-                                        <i class="fas fa-angle-left right"></i>
-                                    </p>
-                                </a>
-                                <ul class="nav-item nav-treeview">
-                                    <li class="nav-item">
-                                        <a href="{{ url('user') }}" class="nav-link">
-                                            <i class="fas fa-users-cog"></i>
-                                            <p>User</p>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
+                            @hasanyrole('User|Staff Desa')
+                                <li class="nav-item">
+                                    <a href="{{ url('surat') }}"
+                                        class="nav-link @if (Request::is('surat/*') || Request::is('surat')) active @endif">
+                                        <i class="fas fa-clipboard-list nav-icon"></i>
+                                        <p>Surat</p>
+                                    </a>
+                                </li>
+                            @endhasanyrole
+
+
+                            @role('Staff Desa')
+                                <li class="nav-item has-treeview @if (Request::is('user/*') || Request::is('user')) menu-open @endif">
+                                    <a href="#" class="nav-link @if (Request::is('user/*') || Request::is('user')) active @endif">
+                                        <i class="nav-icon fas fa-sliders-h"></i>
+                                        <p>
+                                            Settings
+                                            <i class="fas fa-angle-left right"></i>
+                                        </p>
+                                    </a>
+                                    <ul class="nav-item nav-treeview">
+                                        <li class="nav-item ">
+                                            <a href="{{ url('user') }}"
+                                                class="nav-link @if (Request::is('user/*') || Request::is('user')) active @endif">
+                                                <i class="fas fa-users-cog"></i>
+                                                <p>User</p>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            @endrole
                         </ul>
                     </nav>
                 </div>

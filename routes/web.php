@@ -16,7 +16,7 @@ Route::get('/', function () {
 });
 
 // Route::get('/', function () {
-//     return view('companyProfile/home');
+//     return view('companyProfile');
 // });
 
 Auth::routes();
@@ -27,25 +27,45 @@ Route::get('edit-data', 'AuthorizationController@editData');
 Route::get('update-data', 'AuthorizationController@updateData');
 Route::get('delete-data', 'AuthorizationController@deleteData');
 
-Route::prefix('templatesurat')->group(function () {
-    Route::get('/', 'TemplateSuratController@index')->name('templatesurat');
-    Route::get('create', 'TemplateSuratController@create')->name('templatesuratcreate');
-    Route::post('create/store', 'TemplateSuratController@store')->name('templatesuratstore');
-    Route::get('edit/{id}', 'TemplateSuratController@edit')->name('templatesuratedit');
-    Route::put('edit/update/{id}', 'TemplateSuratController@update')->name('templatesuratupdate');
-    Route::delete('destroy/{id}', 'TemplateSuratController@destroy')->name('templatesuratdestroy');
+Route::group(['middleware' => ['role:User|Staff Desa']], function () {
+    Route::prefix('surat')->group(function () {
+        Route::get('/', 'SuratController@index')->name('surat');
+        Route::get('create', 'SuratController@create')->name('suratcreate');
+        Route::post('create/store', 'SuratController@store')->name('suratstore');
+        Route::get('edit/{id}', 'SuratController@edit')->name('suratedit');
+        Route::put('edit/update/{id}', 'SuratController@update')->name('suratupdate');
+        Route::delete('destroy/{id}', 'SuratController@destroy')->name('suratdestroy');
+        Route::post('onChangeTypeSurat', 'SuratController@onChangeTypeSurat')->name('onChangeTypeSurat');
+        Route::post('getDataOnPrint', 'SuratController@getDataOnPrint')->name('getDataOnPrint');
+        Route::post('generateSuratPDF', 'SuratController@generateSuratPDF')->name('geerateSuratPDF');
+    });
 });
 
-Route::prefix('surat')->group(function () {
-    Route::get('/', 'SuratController@index')->name('surat');
-    Route::get('create', 'SuratController@create')->name('suratcreate');
-    Route::post('create/store', 'SuratController@store')->name('suratstore');
-    Route::get('edit/{id}', 'SuratController@edit')->name('suratedit');
-    Route::put('edit/update/{id}', 'SuratController@update')->name('suratupdate');
-    Route::delete('destroy/{id}', 'SuratController@destroy')->name('suratdestroy');
-    Route::post('onChangeTypeSurat', 'SuratController@onChangeTypeSurat')->name('onChangeTypeSurat');
-    Route::post('getDataOnPrint', 'SuratController@getDataOnPrint')->name('getDataOnPrint');
-    Route::post('generateSuratPDF', 'SuratController@generateSuratPDF')->name('geerateSuratPDF');
+Route::group(['middleware' => ['role:Staff Desa']], function () {
+    Route::prefix('templatesurat')->group(function () {
+        Route::get('/', 'TemplateSuratController@index')->name('templatesurat');
+        Route::get('create', 'TemplateSuratController@create')->name('templatesuratcreate');
+        Route::post('create/store', 'TemplateSuratController@store')->name('templatesuratstore');
+        Route::get('edit/{id}', 'TemplateSuratController@edit')->name('templatesuratedit');
+        Route::put('edit/update', 'TemplateSuratController@update')->name('templatesuratupdate');
+        Route::delete('destroy/{id}', 'TemplateSuratController@destroy')->name('templatesuratdestroy');
+    });
+
+    Route::prefix('user')->group(function () {
+        Route::get('/', 'UserController@index')->name('user');
+        Route::post('getDataUserByID', 'UserController@getDataUserByID')->name('getDataUserByID');
+        Route::post('giveUserRole', 'UserController@giveUserRole')->name('giveUserRole');
+
+    });
+});
+
+Route::group(['middleware' => ['role:User|Staff Desa|Guest']], function () {
+    Route::prefix('home')->group(function () {
+        Route::get('/', 'HomeController@index')->name('home');
+        Route::get('edit/{id}', 'HomeController@edit')->name('edit_prof');
+        Route::post('update/{id}', 'HomeController@update')->name('update_prof');
+        Route::get('filter', 'HomeController@filter')->name('filter');
+    });
 });
 
 // Route::prefix('role')->group(function(){
@@ -72,11 +92,6 @@ Route::prefix('surat')->group(function () {
 //     Route::get('delete/{permission}','PermissionController@destroy')->name('delete_permission');
 // });
 
-Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/home/edit/{id}', 'HomeController@edit')->name('edit_prof');
-Route::post('/home/update/{id}', 'HomeController@update')->name('update_prof');
-Route::get('/home/filter', 'HomeController@filter')->name('filter');
-Route::get('/user', 'UserController@index')->name('user');
 Route::get('/user/list', 'UserController@store')->name('list');
 Route::get('/user/add', 'UserController@add')->name('add_data');
 Route::post('/user/save', 'UserController@create')->name('create_user');
@@ -134,7 +149,3 @@ Route::get('mreport/download/{id}', 'MReportController@download')->name('downloa
 Route::get('mreport/delete/{id}', 'MReportController@destroy');
 Route::get('mreport/edit/{id}', 'MReportController@edit');
 Route::post('mreport/update/{id}', 'MReportController@update');
-
-Route::prefix('admin')->group(function () {
-
-});

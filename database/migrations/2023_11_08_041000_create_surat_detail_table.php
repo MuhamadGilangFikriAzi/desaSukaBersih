@@ -16,7 +16,10 @@ class CreateSuratDetailTable extends Migration
         Schema::create('surat_detail', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('surat_id');
-            $table->string('tag', 100);
+            $table->string('tag', 50);
+            $table->string('label', 100);
+            $table->string('input_type', 50);
+
             $table->text('value');
             $table->timestamps();
         });
