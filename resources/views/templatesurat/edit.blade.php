@@ -18,7 +18,7 @@
                         <input type="hidden" name="id" value="{{ $templateSurat->id }}">
                         <div class="form-group">
                             <label>Type Surat</label>
-                            <input type="text" name="type_surat"
+                            <input type="text" name="type_surat" id="type_surat"
                                 placeholder="Masukan Type Surat, contoh : Surat Keterangan Usaha" class="form-control"
                                 value="{{ $templateSurat->type_surat }}">
                             @if ($errors->has('type_surat'))
@@ -27,8 +27,9 @@
                         </div>
                         <div class="form-group">
                             <label>Code Surat</label>
-                            <input type="text" name="code_surat" placeholder="Masukan Code Surat, contoh : UK.06.02"
-                                class="form-control" value="{{ $templateSurat->code_surat }}">
+                            <input type="text" name="code_surat" id="code_surat"
+                                placeholder="Masukan Code Surat, contoh : UK.06.02" class="form-control"
+                                value="{{ $templateSurat->code_surat }}">
                             @if ($errors->has('code_surat'))
                                 <span class="text-danger">{{ $errors->first('code_surat') }}</span>
                             @endif
@@ -45,7 +46,7 @@
                                     </div>
                                 </div>
                                 @foreach ($templateSuratDetail as $key => $detail)
-                                    <div class="row row-inputan my-1" data-id="0">
+                                    <div class="row row-inputan my-1" data-id="{{ $key }}">
                                         <div class="col-md-3">
                                             <input type="text" name="TemplateSuratdetail[{{ $key }}][label]"
                                                 placeholder="Masukan Label" class="form-control"
@@ -83,7 +84,8 @@
                         </div>
 
                         <div class="text-right">
-                            <input class="btn btn-primary" type="submit" name="submit" value="submit">
+                            <div class="btn btn-primary btn-before-submit">Submit</div>
+                            <input class="btn btn-primary btn-submit" type="submit" name="submit" value="submit" hidden>
                         </div>
                     </form>
                 </div>
@@ -93,9 +95,7 @@
 
     <script type="text/javascript">
         $(document).ready(function() {
-            var test = "{{ $templateSuratDetail->count() }}"
-            console.log('not not', test);
-            var i = 0;
+            var i = "{{ $templateSuratDetail->count() }}" + 1;
             $("#btnAddInput").click(function() {
                 i++;
                 $("#inputan").append(`
@@ -132,6 +132,45 @@
                 toolbar: 'undo redo | fontselect | blocks | bold italic | alignleft aligncenter alignright | indent outdent | bullist numlist | table',
                 font_formats: "Andale Mono=andale mono,times; Arial=arial,helvetica,sans-serif; Arial Black=arial black,avant garde; Book Antiqua=book antiqua,palatino; Comic Sans MS=comic sans ms,sans-serif; Courier New=courier new,courier; Georgia=georgia,palatino; Helvetica=helvetica; Impact=impact,chicago; Symbol=symbol; Tahoma=tahoma,arial,helvetica,sans-serif; Terminal=terminal,monaco; Times New Roman=times new roman,times; Trebuchet MS=trebuchet ms,geneva; Verdana=verdana,geneva; Webdings=webdings; Wingdings=wingdings,zapf dingbats",
                 content_style: "@import url('https://fonts.googleapis.com/css2?family=Oswald&display=swap');"
+            });
+
+            const validate = function() {
+                let typeSurat = $('#type_surat').val();
+                let codeSurat = $('#code_surat').val();
+                let bodySurat = $('#editor').val();
+
+                let textError = '';
+                if (typeSurat === '') textError += 'Type Surat wajib diisi ! \n'
+                if (codeSurat === '') textError += 'Code Surat wajib diisi ! \n'
+                if (bodySurat === '') textError += 'Body Surat wajib diisi ! \n'
+
+                return textError;
+
+            }
+
+            $(document).on('click', '.btn-before-submit', function() {
+                Swal.fire({
+                    title: "Apakah anda yakin?",
+                    text: "Melakukan perubahan pada template surat ini?",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Ya, Berikan!"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        let validasi = validate();
+                        if (validasi == '') {
+                            $('.btn-submit').click();
+                        } else {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Validasi",
+                                text: validasi
+                            });
+                        }
+                    }
+                });
             });
         });
     </script>

@@ -47,7 +47,7 @@ Route::group(['middleware' => ['role:Staff Desa']], function () {
         Route::get('create', 'TemplateSuratController@create')->name('templatesuratcreate');
         Route::post('create/store', 'TemplateSuratController@store')->name('templatesuratstore');
         Route::get('edit/{id}', 'TemplateSuratController@edit')->name('templatesuratedit');
-        Route::put('edit/update', 'TemplateSuratController@update')->name('templatesuratupdate');
+        Route::post('update', 'TemplateSuratController@update')->name('templatesuratupdate');
         Route::delete('destroy/{id}', 'TemplateSuratController@destroy')->name('templatesuratdestroy');
     });
 

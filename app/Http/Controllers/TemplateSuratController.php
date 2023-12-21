@@ -102,9 +102,21 @@ class TemplateSuratController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $data = $request->except('_token', 'submit', 'TemplateSuratdetail');
+        $data['admin_id'] = Auth::id();
+        $data['is_active'] = 'Y';
+        $TemplateSuratDetail = $request->TemplateSuratdetail;
+        $dataUpdate = TemplateSurat::findOrFail($request->id);
+        $dataUpdate->update($data);
+        $detailDelete = TemplateSuratDetail::where('template_surat_id', '=', $request->id);
+        foreach ($TemplateSuratDetail as $detail) {
+            $detail["template_surat_id"] = $request->id;
+            TemplateSuratDetail::create($detail);
+        }
+
+        return redirect('/templatesurat/');
     }
 
     /**
