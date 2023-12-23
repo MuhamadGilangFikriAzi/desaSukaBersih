@@ -128,7 +128,7 @@ class SuratController extends Controller
                 $originalFile = $request->file('detail.' . $key . '.value');
                 $file = $originalFile;
                 $fileName = $reqDetail['surat_id'] . '-' . $value['tag'] . $originalFile->getClientOriginalName();
-                Storage::disk('document_upload')->putFileAs('archive', $file, $fileName);
+                Storage::disk('document')->putFileAs('archive', $file, $fileName);
                 $reqDetail['value'] = $fileName;
             }
             $respSuratDetail = SuratDetail::create($reqDetail);
@@ -153,23 +153,9 @@ class SuratController extends Controller
             'bodySurat' => $request->bodySurat,
         ];
 
-        // $jenisSurat = $TemplateSurat->type_surat;
-        // $bodySurat = $request->bodySurat;
-        // return view('surat/generatePDF', compact('jenisSurat', 'codeSurat', 'bodySurat'));
         $pdf = PDF::loadView('surat/generatePDF', $data);
         $pdf->setPaper("a4", "potrait");
         return $pdf->download($surat->id . '-' . time() . '.pdf');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
     }
 
     /**
@@ -180,7 +166,11 @@ class SuratController extends Controller
      */
     public function edit($id)
     {
-        //
+        $surat = Surat::find($id);
+        $suratDetail = $surat->detail()->get();
+        $listTemplateSurat = TemplateSurat::all();
+
+        return view('surat/edit', compact('surat', 'suratDetail', 'listTemplateSurat'));
     }
 
     /**
@@ -190,9 +180,27 @@ class SuratController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $data = $request->except('_token', 'submit', 'detail');
+        $dataSuratDetail = $request->detail;
+
+        foreach ($dataSuratDetail as $key => $value) {
+            $reqDetail = $value;
+            $reqDetail['surat_id'] = $request->id;
+
+            if ($value['input_type'] == 'document' && $request->hasfile('detail.' . $key . '.value')) {
+                $originalFile = $request->file('detail.' . $key . '.value');
+                $file = $originalFile;
+                $fileName = $reqDetail['surat_id'] . '-' . $value['tag'] . $originalFile->getClientOriginalName();
+                Storage::disk('document')->putFileAs('archive', $file, $fileName);
+                $reqDetail['value'] = $fileName;
+            }
+            $suratDetail = SuratDetail::findOrFail($reqDetail['id']);
+            $suratDetail->update($reqDetail);
+        }
+
+        return redirect('/surat/');
     }
 
     /**

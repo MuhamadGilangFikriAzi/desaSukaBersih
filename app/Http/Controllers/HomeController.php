@@ -60,8 +60,8 @@ class HomeController extends Controller
 
         $post = TemplateSurat::orderBy('created_at', 'DESC')->limit(5)->get();
         $sumpost = $post->sum('total');
-
-        return view('home.dashboard', compact('month', 'countmonth', 'data', 'sum', 'sumall', 'post', 'sumpost'));
+        return redirect('/surat/');
+        // return view('home.dashboard', compact('month', 'countmonth', 'data', 'sum', 'sumall', 'post', 'sumpost'));
 
     }
 

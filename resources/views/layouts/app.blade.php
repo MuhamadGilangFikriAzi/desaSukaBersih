@@ -137,7 +137,7 @@
                             data-accordion="false">
                             <!-- Add icons to the links using the .nav-icon class
                    with font-awesome or any other icon font library -->
-                            <li class="nav-item has-treeview">
+                            {{-- <li class="nav-item has-treeview">
                                 <a href="{{ url('/home') }}"
                                     class="nav-link @if (Request::is('home/*') || Request::is('home')) active @endif">
                                     <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -145,7 +145,7 @@
                                         Dashboard
                                     </p>
                                 </a>
-                            </li>
+                            </li> --}}
 
                             @role('Staff Desa')
                                 <li class="nav-item">

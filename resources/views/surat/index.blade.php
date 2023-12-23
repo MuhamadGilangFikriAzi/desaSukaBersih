@@ -2,112 +2,123 @@
 
 @section('content')
     <div class="row justify-content-center">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header text-left"><b>Surat</b></div>
-                <div class="row p-3">
-                    <div class="col-sm-12">
-                        <label>Filter</label>
-                    </div>
-                    <div class="col-sm-12">
-                        <form action="{{ route('surat') }}" method="get" enctype="multipart/form-data" class="row"
-                            id="filter">
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label>ID</label>
-                                    <input type="text" name="id" class="form-control filter"
-                                        value="{{ $filter['id'] }}">
-                                </div>
-                                <div class="form-group">
-                                    <label>Type Surat</label>
-                                    <select name="template_surat_id" class="custom-select filter" id="type_surat">
-                                        <option selected value="">Pilih...</option>
-                                        @foreach ($listTemplateSurat as $item)
-                                            <option value="{{ $item->id }}"
-                                                @if ($filter['template_surat_id'] == $item->id) selected @endif>{{ $item->type_surat }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label>Tanggal Buat</label>
-                                    <input type="date" name="created_at" class="form-control filter"
-                                        value="{{ $filter['created_at'] }}">
-                                </div>
-                            </div>
+        @role('Guest')
+            <div class="alert alert-error col-sm-12 text-center" role="alert">
+                Akun belum diverifikasi oleh Staff Desa!
+            </div>
+        @endrole
 
-                            <div class="col-sm-12 text-right">
-                                <button type="submit" class="btn btn-outline-dark">Cari</button>
-                            </div>
-                        </form>
+        @hasanyrole('User|Staff Desa')
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header text-left"><b>Surat</b></div>
+                    <div class="row p-3">
+                        <div class="col-sm-12">
+                            <label>Filter</label>
+                        </div>
+                        <div class="col-sm-12">
+                            <form action="{{ route('surat') }}" method="get" enctype="multipart/form-data" class="row"
+                                id="filter">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>ID</label>
+                                        <input type="text" name="id" class="form-control filter"
+                                            value="{{ $filter['id'] }}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Type Surat</label>
+                                        <select name="template_surat_id" class="custom-select filter" id="type_surat">
+                                            <option selected value="">Pilih...</option>
+                                            @foreach ($listTemplateSurat as $item)
+                                                <option value="{{ $item->id }}"
+                                                    @if ($filter['template_surat_id'] == $item->id) selected @endif>{{ $item->type_surat }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Tanggal Buat</label>
+                                        <input type="date" name="created_at" class="form-control filter"
+                                            value="{{ $filter['created_at'] }}">
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-12 text-right">
+                                    <button type="submit" class="btn btn-outline-dark">Cari</button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
-                </div>
-                <div class="card-body text-center">
-                    <div class="table-responsive ">
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th><b>ID</b></th>
-                                    <th><b>Type Surat</b></th>
-                                    <th><b>Tanggal Buat</b></th>
-                                    <th>
-                                        <b>
-                                            @role('User')
-                                                <a href="{{ route('suratcreate') }}">
-                                                    <button type="button" class="btn btn-outline-dark"><i
-                                                            class="fas fa-plus"></i> Tambah
-                                                        Surat</button>
-                                                </a>
-                                            @endrole
-                                        </b>
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($list as $key => $data)
+                    <div class="card-body text-center">
+                        <div class="table-responsive ">
+                            <table class="table table-striped">
+                                <thead>
                                     <tr>
-                                        <td><b>{{ $data->id }}</b></td>
-                                        <td>{{ $data->template_surat->type_surat }}</td>
-                                        <td>{{ date('d M Y', strtotime($data->created_at)) }}</td>
-                                        <td>
-                                            <div>
+                                        <th><b>ID</b></th>
+                                        <th><b>Type Surat</b></th>
+                                        <th><b>Tanggal Buat</b></th>
+                                        <th>
+                                            <b>
                                                 @role('User')
-                                                    <a href="{{ url('/TemplateSurat/edit/' . $data->id . '') }}">
-                                                        <button class="btn btn-outline-dark"><i
-                                                                class="fas fa-edit"></i></button>
+                                                    <a href="{{ route('suratcreate') }}">
+                                                        <button type="button" class="btn btn-outline-dark"><i
+                                                                class="fas fa-plus"></i> Tambah
+                                                            Surat</button>
                                                     </a>
-                                                    <a href="{{ url('/TemplateSurat/destroy/' . $data->id . '') }}">
+                                                @endrole
+                                            </b>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($list as $key => $data)
+                                        <tr>
+                                            <td><b>{{ $data->id }}</b></td>
+                                            <td>{{ $data->template_surat->type_surat }}</td>
+                                            <td>{{ date('d M Y', strtotime($data->created_at)) }}</td>
+                                            <td>
+                                                <div>
+                                                    @role('User')
+                                                        <a href="{{ url('/surat/edit/' . $data->id . '') }}">
+                                                            <button class="btn btn-outline-dark"><i
+                                                                    class="fas fa-edit"></i></button>
+                                                        </a>
+                                                        {{-- <a href="{{ url('/templatesurat/destroy/' . $data->id . '') }}">
                                                         <button class="btn btn-outline-dark"><i
                                                                 class="fas fa-trash"></i></button>
-                                                    </a>
-                                                @endrole
-                                                @role('Staff Desa')
-                                                    <button class="btn btn-outline-dark btn-print"
-                                                        data-id="{{ $data->id }}" data-toggle="modal"
-                                                        data-target="#print"><i class="fas fa-print"></i></button>
-                                                @endrole
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                            <tfoot>
-                                <td colspan="3">
-                                    {{ $list->links() }}
-                                </td>
-                                <td colspan="1" style="color: grey; font-family: sans-serif;">
-                                    Total entries {{ $count }}
-                                </td>
-                            </tfoot>
+                                                    </a> --}}
+                                                    @endrole
+                                                    @role('Staff Desa')
+                                                        <button class="btn btn-outline-dark btn-print"
+                                                            data-id="{{ $data->id }}" data-toggle="modal"
+                                                            data-target="#print"><i class="fas fa-print"></i></button>
+                                                    @endrole
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                                <tfoot>
+                                    <td colspan="3">
+                                        {{ $list->links() }}
+                                    </td>
+                                    <td colspan="1" style="color: grey; font-family: sans-serif;">
+                                        Total entries {{ $count }}
+                                    </td>
+                                </tfoot>
 
-                        </table>
+                            </table>
 
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        @endhasanyrole
+
+
+
     </div>
 
     <div class="modal fade" id="print" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

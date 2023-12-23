@@ -71,17 +71,6 @@ class TemplateSuratController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
@@ -110,23 +99,12 @@ class TemplateSuratController extends Controller
         $TemplateSuratDetail = $request->TemplateSuratdetail;
         $dataUpdate = TemplateSurat::findOrFail($request->id);
         $dataUpdate->update($data);
-        $detailDelete = TemplateSuratDetail::where('template_surat_id', '=', $request->id);
+        $detailDelete = TemplateSuratDetail::where('template_surat_id', '=', $request->id)->delete();
         foreach ($TemplateSuratDetail as $detail) {
             $detail["template_surat_id"] = $request->id;
             TemplateSuratDetail::create($detail);
         }
 
         return redirect('/templatesurat/');
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }

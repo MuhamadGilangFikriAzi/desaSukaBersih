@@ -144,7 +144,6 @@
                         let resp = data.data;
                         let urlImg = "{{ asset('img/ktp/') }}";
                         urlImg += "/" + resp.data.ktp;
-                        // {{ asset('img/ktp/') }}
                         $('#nama').val(resp.data.name);
                         $('#agama').val(resp.data.agama);
                         $('#alamat').val(resp.data.alamat);
