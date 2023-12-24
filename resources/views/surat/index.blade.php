@@ -59,6 +59,9 @@
                                         <th><b>ID</b></th>
                                         <th><b>Type Surat</b></th>
                                         <th><b>Tanggal Buat</b></th>
+                                        @role('Staff Desa')
+                                            <th><b>Dibuat Oleh</b></th>
+                                        @endrole
                                         <th>
                                             <b>
                                                 @role('User')
@@ -73,32 +76,42 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($list as $key => $data)
-                                        <tr>
-                                            <td><b>{{ $data->id }}</b></td>
-                                            <td>{{ $data->template_surat->type_surat }}</td>
-                                            <td>{{ date('d M Y', strtotime($data->created_at)) }}</td>
-                                            <td>
-                                                <div>
-                                                    @role('User')
-                                                        <a href="{{ url('/surat/edit/' . $data->id . '') }}">
-                                                            <button class="btn btn-outline-dark"><i
-                                                                    class="fas fa-edit"></i></button>
-                                                        </a>
-                                                        {{-- <a href="{{ url('/templatesurat/destroy/' . $data->id . '') }}">
+                                    @if ($count != 0)
+                                        @foreach ($list as $key => $data)
+                                            <tr>
+                                                <td><b>{{ $data->id }}</b></td>
+                                                <td>{{ $data->template_surat->type_surat }}</td>
+                                                <td>{{ date('d M Y', strtotime($data->created_at)) }}</td>
+                                                @role('Staff Desa')
+                                                    <td>{{ $data->user->name }}</td>
+                                                @endrole
+                                                <td>
+                                                    <div>
+                                                        @role('User')
+                                                            <a href="{{ url('/surat/edit/' . $data->id . '') }}">
+                                                                <button class="btn btn-outline-dark"><i
+                                                                        class="fas fa-edit"></i></button>
+                                                            </a>
+                                                            {{-- <a href="{{ url('/templatesurat/destroy/' . $data->id . '') }}">
                                                         <button class="btn btn-outline-dark"><i
                                                                 class="fas fa-trash"></i></button>
                                                     </a> --}}
-                                                    @endrole
-                                                    @role('Staff Desa')
-                                                        <button class="btn btn-outline-dark btn-print"
-                                                            data-id="{{ $data->id }}" data-toggle="modal"
-                                                            data-target="#print"><i class="fas fa-print"></i></button>
-                                                    @endrole
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    @endforeach
+                                                        @endrole
+                                                        @role('Staff Desa')
+                                                            <button class="btn btn-outline-dark btn-print"
+                                                                data-id="{{ $data->id }}" data-toggle="modal"
+                                                                data-target="#print"><i class="fas fa-print"></i></button>
+                                                        @endrole
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    @else
+                                        <td colspan="4">
+                                            Tidak Ada Surat
+                                        </td>
+                                    @endif
+
                                 </tbody>
                                 <tfoot>
                                     <td colspan="3">

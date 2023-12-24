@@ -63,7 +63,7 @@ return [
             'bucket' => env('AWS_BUCKET'),
             'url' => env('AWS_URL'),
         ],
-        'document_upload' => [
+        'document' => [
             'driver' => 'local',
             'root' => public_path() . '/document',
         ],

@@ -38,4 +38,9 @@ class User extends Authenticatable
     ];
 
     public $timestamps = true;
+
+    public function Surat()
+    {
+        return $this->hasMany(Surat::class);
+    }
 }

@@ -31,7 +31,11 @@ class SuratController extends Controller
             'template_surat_id' => '',
             'created_at' => '',
         ];
-        //dd($request->id);
+        $role = Auth::user()->roles->pluck('name')[0];
+        if ($role == "User") {
+            $list = $list->where('user_id', '=', Auth::user()->id);
+        }
+
         if ($request->id) {
             $list = $list->where('id', '=', $request->id);
             $filter['id'] = $request->id;
@@ -119,18 +123,21 @@ class SuratController extends Controller
             'user_id' => Auth::id(),
         ];
 
-        $respSurat = Surat::create($reqSurat);
+        $respSurat = Surat::find(6);
         foreach ($request->detail as $key => $value) {
             $reqDetail = $value;
             $reqDetail['surat_id'] = $respSurat->id;
-
             if ($value['input_type'] == 'document' && $request->hasfile('detail.' . $key . '.value')) {
                 $originalFile = $request->file('detail.' . $key . '.value');
                 $file = $originalFile;
                 $fileName = $reqDetail['surat_id'] . '-' . $value['tag'] . $originalFile->getClientOriginalName();
+                // dd($fileName);
                 Storage::disk('document')->putFileAs('archive', $file, $fileName);
                 $reqDetail['value'] = $fileName;
+                $respSuratDetail = SuratDetail::create($reqDetail);
+
             }
+
             $respSuratDetail = SuratDetail::create($reqDetail);
         }
 
