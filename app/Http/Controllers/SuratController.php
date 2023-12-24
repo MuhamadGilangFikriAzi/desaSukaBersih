@@ -123,7 +123,7 @@ class SuratController extends Controller
             'user_id' => Auth::id(),
         ];
 
-        $respSurat = Surat::find(6);
+        $respSurat = Surat::create($reqSurat);
         foreach ($request->detail as $key => $value) {
             $reqDetail = $value;
             $reqDetail['surat_id'] = $respSurat->id;
