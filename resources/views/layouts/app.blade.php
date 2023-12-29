@@ -101,7 +101,7 @@
                                 {{ Auth::user()->name }} <i class="fas fa-angle-down"></i>
                             </a>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item" href="{{ route('edit_prof', Auth::user()->id) }}">Edit
+                                <a class="dropdown-item" href="{{ route('useredit', Auth::user()->id) }}">Edit
                                     Profile</a>
                                 <a class="dropdown-item" href="{{ route('logout') }}"
                                     onclick="event.preventDefault();
@@ -197,6 +197,15 @@
             </div>
         </div>
     </div>
+    <script>
+        $(document).ready(function() {
+            $(document).on('keyup', '.onlynumber', function() {
+                let text = $(this).val()
+                text = text.replace(/[^0-9]/, "");
+                $(this).val(text);
+            });
+        })
+    </script>
     <!-- jQuery -->
     <script src="{{ url('adminlte/plugins/jquery/jquery.min.js') }}"></script>
     <!-- jQuery UI 1.11.4 -->

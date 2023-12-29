@@ -29,7 +29,6 @@ Route::get('delete-data', 'AuthorizationController@deleteData');
 
 Route::group(['middleware' => ['role:User|Staff Desa']], function () {
     Route::prefix('surat')->group(function () {
-        Route::get('/', 'SuratController@index')->name('surat');
         Route::get('create', 'SuratController@create')->name('suratcreate');
         Route::post('create/store', 'SuratController@store')->name('suratstore');
         Route::get('edit/{id}', 'SuratController@edit')->name('suratedit');
@@ -60,21 +59,25 @@ Route::group(['middleware' => ['role:Staff Desa']], function () {
 Route::group(['middleware' => ['role:User|Staff Desa|Guest']], function () {
     Route::prefix('home')->group(function () {
         Route::get('/', 'HomeController@index')->name('home');
-        Route::get('edit/{id}', 'HomeController@edit')->name('edit_prof');
-        Route::post('update/{id}', 'HomeController@update')->name('update_prof');
-        Route::get('filter', 'HomeController@filter')->name('filter');
     });
+
+    Route::prefix('user')->group(function () {
+        Route::get('edit/{id}', 'UserController@edit')->name('useredit');
+        Route::post('update/{id}', 'UserController@update')->name('userupdate');
+    });
+
+    Route::get('/surat/', 'SuratController@index')->name('surat');
 });
 
-Route::get('/user/list', 'UserController@store')->name('list');
-Route::get('/user/add', 'UserController@add')->name('add_data');
-Route::post('/user/save', 'UserController@create')->name('create_user');
-Route::get('/user/edit/{id}', 'UserController@edit')->name('edit');
-Route::get('/user/delete/{id}', 'UserController@destroy')->name('destroy');
-Route::post('/user/update/{id}', 'UserController@update')->name('update');
-Route::get('/user/show/{id}', 'UserController@show')->name('show');
-Route::get('/user/trash', 'UserController@trash')->name('trash_user');
-Route::get('/user/restore/{id}', 'UserController@restore')->name('restore_user');
-Route::get('/user/del_permanent/{id}', 'UserController@delete')->name('delete_user');
-Route::get('/user/restore_all', 'UserController@restore_all')->name('restore_all_user');
-Route::get('/user/delete_all', 'UserController@delete_all')->name('delete_all_user');
+// Route::get('/user/list', 'UserController@store')->name('list');
+// Route::get('/user/add', 'UserController@add')->name('add_data');
+// Route::post('/user/save', 'UserController@create')->name('create_user');
+// Route::get('/user/edit/{id}', 'UserController@edit')->name('edit');
+// Route::get('/user/delete/{id}', 'UserController@destroy')->name('destroy');
+// Route::post('/user/update/{id}', 'UserController@update')->name('update');
+// Route::get('/user/show/{id}', 'UserController@show')->name('show');
+// Route::get('/user/trash', 'UserController@trash')->name('trash_user');
+// Route::get('/user/restore/{id}', 'UserController@restore')->name('restore_user');
+// Route::get('/user/del_permanent/{id}', 'UserController@delete')->name('delete_user');
+// Route::get('/user/restore_all', 'UserController@restore_all')->name('restore_all_user');
+// Route::get('/user/delete_all', 'UserController@delete_all')->name('delete_all_user');

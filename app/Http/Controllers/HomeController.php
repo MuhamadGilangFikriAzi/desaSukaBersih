@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\TemplateSurat;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Image;
 use Spatie\Permission\Models\Role;
 
@@ -45,21 +45,21 @@ class HomeController extends Controller
         // auth()->user()->givePermissionTo('edit post');
         // return auth()->user()->permissions;
         // //mengambil seluruh data
-        $all = TemplateSurat::all();
-        //menjumlahkan seluruh isi dari table total
-        $sumall = $all->sum('total');
-        //Menjumlahkan seluruh data yg ada
-        $data = $all->count();
-        $currentMonth = date('m');
-        //mengambil data berdasarkan bulan ini
-        $month = TemplateSurat::whereRaw('MONTH(created_at) = ?', [$currentMonth])->get();
-        //menjumlahkan seluruh isi dari table total berdasarkan bulan ini
-        $sum = $month->sum('total');
-        //menghitung jumlah data yang ada pada bulan ini
-        $countmonth = $month->count();
+        // $all = TemplateSurat::all();
+        // //menjumlahkan seluruh isi dari table total
+        // $sumall = $all->sum('total');
+        // //Menjumlahkan seluruh data yg ada
+        // $data = $all->count();
+        // $currentMonth = date('m');
+        // //mengambil data berdasarkan bulan ini
+        // $month = TemplateSurat::whereRaw('MONTH(created_at) = ?', [$currentMonth])->get();
+        // //menjumlahkan seluruh isi dari table total berdasarkan bulan ini
+        // $sum = $month->sum('total');
+        // //menghitung jumlah data yang ada pada bulan ini
+        // $countmonth = $month->count();
 
-        $post = TemplateSurat::orderBy('created_at', 'DESC')->limit(5)->get();
-        $sumpost = $post->sum('total');
+        // $post = TemplateSurat::orderBy('created_at', 'DESC')->limit(5)->get();
+        // $sumpost = $post->sum('total');
         return redirect('/surat/');
         // return view('home.dashboard', compact('month', 'countmonth', 'data', 'sum', 'sumall', 'post', 'sumpost'));
 
@@ -67,8 +67,11 @@ class HomeController extends Controller
 
     public function edit(User $id)
     {
-        $roles = Role::query()->get();
-        return view('home.edit_profile', compact('id', 'roles'));
+        $data = Auth::user();
+        $listAgama = ['Islam', 'Kristen Protestan', 'Kristen Katolik', 'Hindu', 'Budha', 'Konghucu'];
+        $listJenisKelamin = ['Laki-laki', 'Perempuann'];
+        $role = Auth::user()->roles->pluck('name')[0];
+        return view('home.edit_profile', compact('data', 'role', 'listAgama', 'listJenisKelamin'));
     }
 
     public function update(Request $request, $id)

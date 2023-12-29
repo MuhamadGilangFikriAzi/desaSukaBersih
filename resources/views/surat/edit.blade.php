@@ -80,7 +80,6 @@
                     let label = $(this).attr('data-label');
 
                     if (value === undefined || value === '') textError += label + ' wajib diisi ! \n';
-                    console.log('text errornya', textError)
                 });
 
                 return textError;

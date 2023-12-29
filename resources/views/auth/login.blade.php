@@ -4,6 +4,10 @@
 <head>
     <title>login</title>
     <link rel="stylesheet" href="{{ asset('adminlte/dist/css/adminlte.min.css') }}">
+    <script src="{{ url('limitless/global_assets/js/main/jquery.min.js') }}"></script>
+    <script src="{{ url('limitless/global_assets/js/main/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ url('limitless/global_assets/js/plugins/loaders/blockui.min.js') }}"></script>
+    <script src="{{ url('limitless/global_assets/js/plugins/ui/ripple.min.js') }}"></script>
 </head>
 
 <body>
@@ -28,9 +32,9 @@
                                     @csrf
                                     <div class="form-group">
                                         <input id="username" type="text"
-                                            class="form-control @error('username') is-invalid @enderror" name="nik"
-                                            placeholder="Enter NIK..." value="{{ old('username') }}" required
-                                            autocomplete="NIK" autofocus maxlength="16">
+                                            class="form-control onlynumber @error('username') is-invalid @enderror"
+                                            name="nik" placeholder="Enter NIK..." value="{{ old('username') }}"
+                                            required autocomplete="NIK" autofocus maxlength="16">
 
                                         @error('username')
                                             <span class="invalid-feedback" role="alert">
@@ -82,7 +86,15 @@
             </div>
         </div>
     </div>
-    <script></script>
 </body>
+<script>
+    $(document).ready(function() {
+        $(document).on('keyup', '.onlynumber', function() {
+            let text = $(this).val()
+            text = text.replace(/[^0-9]/, "");
+            $(this).val(text);
+        });
+    })
+</script>
 
 </html>

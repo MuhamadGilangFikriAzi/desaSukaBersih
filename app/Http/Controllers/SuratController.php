@@ -134,8 +134,6 @@ class SuratController extends Controller
                 // dd($fileName);
                 Storage::disk('document')->putFileAs('archive', $file, $fileName);
                 $reqDetail['value'] = $fileName;
-                $respSuratDetail = SuratDetail::create($reqDetail);
-
             }
 
             $respSuratDetail = SuratDetail::create($reqDetail);

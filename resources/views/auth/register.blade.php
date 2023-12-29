@@ -4,6 +4,10 @@
 <head>
     <title>register</title>
     <link rel="stylesheet" href="{{ asset('adminlte/dist/css/adminlte.min.css') }}">
+    <script src="{{ url('limitless/global_assets/js/main/jquery.min.js') }}"></script>
+    <script src="{{ url('limitless/global_assets/js/main/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ url('limitless/global_assets/js/plugins/loaders/blockui.min.js') }}"></script>
+    <script src="{{ url('limitless/global_assets/js/plugins/ui/ripple.min.js') }}"></script>
 </head>
 
 <body>
@@ -37,9 +41,9 @@
                                     <div class="form-group">
                                         <label>NIK</label>
                                         <input id="nik" type="text"
-                                            class="form-control @error('nik') is-invalid @enderror" name="nik"
-                                            maxlength="16" placeholder="NIK" value="{{ old('nik') }}" required
-                                            autocomplete="nik">
+                                            class="form-control onlynumber @error('nik') is-invalid @enderror"
+                                            name="nik" maxlength="16" placeholder="NIK" value="{{ old('nik') }}"
+                                            required autocomplete="nik">
 
                                         @error('nik')
                                             <span class="invalid-feedback" role="alert">
@@ -98,5 +102,17 @@
         </div>
     </div>
 </body>
+<script>
+    $(document).ready(function() {
+        $(document).on('keyup', '.onlynumber', function() {
+            let text = $(this).val()
+            text = text.replace(/[^0-9]/, "");
+            $(this).val(text);
+        });
+    })
+</script>
+<script src="{{ url('adminlte/plugins/jquery/jquery.min.js') }}"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="{{ url('adminlte/plugins/jquery-ui/jquery-ui.min.js') }}"></script>
 
 </html>
