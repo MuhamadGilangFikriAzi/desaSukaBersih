@@ -124,7 +124,7 @@
     <div id="body">
         <hr>
         <div class="text-center fw-bold fs-14"><u>{{ $jenisSurat }}</u></div>
-        <div class="text-center fs-14">{{ $codeSurat }}</div>
+        <div class="text-center fs-14">Nomor : {{ $codeSurat }}</div>
         <div class="">
             <p class="text-center fs-12">
                 {!! $bodySurat !!}

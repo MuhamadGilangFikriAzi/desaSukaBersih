@@ -92,9 +92,19 @@ class SuratController extends Controller
             }
         }
 
+        $TemplateSurat = TemplateSurat::find($data->template_surat_id);
+        $year = date("Y-m-d");
+        $counterCode = DB::select("SELECT COUNT(*) as total FROM surat
+        WHERE YEAR(printed_at) = YEAR('" . $year . "')
+        AND template_surat_id = " . $data->template_surat_id)[0]->total;
+        $arrCodeSurat = [$TemplateSurat->code_surat, $counterCode + 1];
+        $codeSurat = implode(" / ", $arrCodeSurat);
+
         return response()->json(['data' => [
             'bodySurat' => $bodySurat,
             'document' => $document,
+            'codeSurat' => $codeSurat,
+            'jenisSurat' => $TemplateSurat->type_surat,
         ]]);
     }
 
@@ -145,22 +155,22 @@ class SuratController extends Controller
     public function generateSuratPdf(Request $request)
     {
         $surat = Surat::find($request->id);
-        $TemplateSurat = TemplateSurat::find($surat->template_surat_id);
-        $year = date("Y");
-        $counterCode = DB::select("SELECT COUNT(*) as total FROM surat
-        WHERE YEAR(printed_at) = YEAR('" . $year . "')
-        AND template_surat_id = " . $surat->template_surat_id)[0]->total;
-        $arrCodeSurat = [$TemplateSurat->code_surat, $counterCode + 1];
-        $codeSurat = implode(" / ", $arrCodeSurat);
         $data = [
-            'jenisSurat' => $TemplateSurat->type_surat,
-            'codeSurat' => $codeSurat,
+            'jenisSurat' => $request->jenisSurat,
+            'codeSurat' => $request->codeSurat,
             'bodySurat' => $request->bodySurat,
         ];
 
+        $dataUpdate = [];
+        $dataUpdate['id'] = $request->id;
+        $dataUpdate['printed_at'] = date('Y-m-d H:i:s');
+        $dataUpdate['last_admin_print'] = Auth::id();
+        $surat->update($dataUpdate);
+
         $pdf = PDF::loadView('surat/generatePDF', $data);
         $pdf->setPaper("a4", "potrait");
-        return $pdf->download($surat->id . '-' . time() . '.pdf');
+
+        return $pdf->download(str_replace(" ", "", $request->codeSurat) . '-' . date('Y-m-d H:i') . '.pdf');
     }
 
     /**

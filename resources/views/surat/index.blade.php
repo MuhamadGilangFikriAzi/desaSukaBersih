@@ -150,6 +150,16 @@
                         @csrf
                         <div class="form-group">
                             <label>Surat</label>
+                            <input type="text" name="jenis" class="form-control jenisSurat" disabled>
+                            <input type="hidden" name="jenisSurat" class="form-control jenisSurat">
+
+                        </div>
+                        <div class="form-group">
+                            <label>Kode Surat</label>
+                            <input type="text" name="codeSurat" id="codeSurat" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Body Surat</label>
                             <textarea class="form-control" id="editor" name="bodySurat"></textarea>
                             <input type="hidden" name="id" class="hidden-id">
                         </div>
@@ -193,6 +203,8 @@
                     success: function(data) {
                         console.log(data)
                         $('#editor').val(data.data.bodySurat);
+                        $('.jenisSurat').val(data.data.jenisSurat);
+                        $('#codeSurat').val(data.data.codeSurat);
 
                         tinymce.init({
                             selector: 'textarea#editor', // Replace this CSS selector to match the placeholder element for TinyMCE
