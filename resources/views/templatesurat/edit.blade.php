@@ -17,7 +17,9 @@
                         @csrf
                         <input type="hidden" name="id" value="{{ $templateSurat->id }}">
                         <div class="form-group">
-                            <label>Type Surat</label>
+                            <label>Type Surat</label><br>
+                            <span>Gunakan Tag berikut agar nomor surat terus berjalan <br> [TAHUN] =
+                                tahun surat &emsp; [BULAN] = Bulan surat &emsp; [URUTAN] = urutan nomor surat</span>
                             <input type="text" name="type_surat" id="type_surat"
                                 placeholder="Masukan Type Surat, contoh : Surat Keterangan Usaha" class="form-control"
                                 value="{{ $templateSurat->type_surat }}">
@@ -79,7 +81,9 @@
                         </div>
 
                         <div class="form-group">
-                            <label>Surat</label>
+                            <label>Surat</label><br>
+                            Gunakan Tag berikut
+                            [TANGGALCETAK] = Tanggal cetak surat
                             <textarea class="form-control editor" id="editor" name="body_surat">{{ $templateSurat->body_surat }}</textarea>
                         </div>
 

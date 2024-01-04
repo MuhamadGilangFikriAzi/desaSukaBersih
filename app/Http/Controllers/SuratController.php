@@ -49,7 +49,7 @@ class SuratController extends Controller
             $filter['created_at'] = $request->created_at;
         }
 
-        $list = $list->with(['template_surat'])->paginate('10');
+        $list = $list->with(['template_surat'])->orderBy('created_at', 'DESC')->paginate('10');
         $listTemplateSurat = TemplateSurat::all();
         $count = $list->count();
         return view('surat/index', compact('list', 'listTemplateSurat', 'count', 'filter'));
@@ -74,8 +74,28 @@ class SuratController extends Controller
     public function getDataOnPrint(Request $request)
     {
         $data = Surat::find($request->id);
+        $isRePrint = $data->code_surat_printed != null;
+        $bodySurat = $isRePrint ? $data->body_surat_printed : $data->body_surat;
+        $bodySurat = str_replace('[TANGGALCETAK]', date('d F Y'), $bodySurat);
 
-        $bodySurat = $data->body_surat;
+        $templateSurat = TemplateSurat::find($data->template_surat_id);
+        $codeSurat = $templateSurat->code_surat;
+
+        $arrMonth = [
+            '01' => 'I',
+            '02' => 'II',
+            '03' => 'III',
+            '04' => 'IV',
+            '05' => 'V',
+            '06' => 'VI',
+            '07' => 'VII',
+            '08' => 'VIII',
+            '09' => 'XI',
+            '10' => 'X',
+            '11' => 'XI',
+            '12' => 'XII',
+        ];
+
         $document = [];
 
         foreach ($data->detail()->get() as $value) {
@@ -92,19 +112,23 @@ class SuratController extends Controller
             }
         }
 
-        $TemplateSurat = TemplateSurat::find($data->template_surat_id);
-        $year = date("Y-m-d");
-        $counterCode = DB::select("SELECT COUNT(*) as total FROM surat
-        WHERE YEAR(printed_at) = YEAR('" . $year . "')
-        AND template_surat_id = " . $data->template_surat_id)[0]->total;
-        $arrCodeSurat = [$TemplateSurat->code_surat, $counterCode + 1];
-        $codeSurat = implode(" / ", $arrCodeSurat);
+        if (!$isRePrint) {
+            $year = date("Y-m-d");
+            $month = $arrMonth[date("m")];
+            $counterCode = DB::select("SELECT COUNT(*) as total FROM surat
+            WHERE YEAR(printed_at) = YEAR('" . $year . "')
+            AND template_surat_id = " . $data->template_surat_id)[0]->total;
+            $codeSurat = str_replace('[TAHUN]', date('Y'), $codeSurat);
+            $codeSurat = str_replace('[BULAN]', $month, $codeSurat);
+            $codeSurat = str_replace('[URUTAN]', str_pad($counterCode + 1, 3, "0", STR_PAD_LEFT), $codeSurat);
+        }
 
         return response()->json(['data' => [
             'bodySurat' => $bodySurat,
             'document' => $document,
             'codeSurat' => $codeSurat,
-            'jenisSurat' => $TemplateSurat->type_surat,
+            'jenisSurat' => $templateSurat->type_surat,
+            'isRePrint' => $isRePrint,
         ]]);
     }
 
@@ -165,12 +189,17 @@ class SuratController extends Controller
         $dataUpdate['id'] = $request->id;
         $dataUpdate['printed_at'] = date('Y-m-d H:i:s');
         $dataUpdate['last_admin_print'] = Auth::id();
+        if ($surat->code_surat_printed == null) {
+            $dataUpdate['code_surat_printed'] = $request->codeSurat;
+            $dataUpdate['body_surat_printed'] = $request->bodySurat;
+        }
+
         $surat->update($dataUpdate);
 
         $pdf = PDF::loadView('surat/generatePDF', $data);
-        $pdf->setPaper("a4", "potrait");
+        $pdf->setPaper('legal', "potrait");
 
-        return $pdf->download(str_replace(" ", "", $request->codeSurat) . '-' . date('Y-m-d H:i') . '.pdf');
+        return $pdf->download(str_replace(" ", "", $request->codeSurat) . '-' . date('Y-m-d') . '.pdf');
     }
 
     /**

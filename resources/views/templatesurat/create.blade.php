@@ -25,7 +25,9 @@
                             @endif
                         </div>
                         <div class="form-group">
-                            <label>Code Surat</label>
+                            <label>Code Surat</label> <br>
+                            <span>Gunakan Tag berikut agar nomor surat terus berjalan <br> [TAHUN] =
+                                tahun surat &emsp; [BULAN] = Bulan surat &emsp; [URUTAN] = urutan nomor surat</span>
                             <input type="text" name="code_surat" placeholder="Masukan Code Surat, contoh : UK.06.02"
                                 class="form-control" value="{{ old('code_surat') }}">
                             @if ($errors->has('code_surat'))
@@ -68,7 +70,9 @@
                         </div>
 
                         <div class="form-group">
-                            <label>Surat</label>
+                            <label>Surat</label><br>
+                            <span>Gunakan Tag berikut <br>
+                                [TANGGALCETAK] = Tanggal cetak surat</span>
                             <textarea class="form-control editor" id="editor" name="body_surat"></textarea>
                         </div>
 

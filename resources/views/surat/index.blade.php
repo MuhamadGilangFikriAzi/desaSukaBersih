@@ -88,14 +88,12 @@
                                                 <td>
                                                     <div>
                                                         @role('User')
-                                                            <a href="{{ url('/surat/edit/' . $data->id . '') }}">
-                                                                <button class="btn btn-outline-dark"><i
-                                                                        class="fas fa-edit"></i></button>
-                                                            </a>
-                                                            {{-- <a href="{{ url('/templatesurat/destroy/' . $data->id . '') }}">
-                                                        <button class="btn btn-outline-dark"><i
-                                                                class="fas fa-trash"></i></button>
-                                                    </a> --}}
+                                                            @if ($data->code_surat_printed == null)
+                                                                <a href="{{ url('/surat/edit/' . $data->id . '') }}">
+                                                                    <button class="btn btn-outline-dark"><i
+                                                                            class="fas fa-edit"></i></button>
+                                                                </a>
+                                                            @endif
                                                         @endrole
                                                         @role('Staff Desa')
                                                             <button class="btn btn-outline-dark btn-print"
@@ -176,6 +174,15 @@
 
     <script>
         $(document).ready(function() {
+
+            tinymce.init({
+                selector: 'textarea#editor', // Replace this CSS selector to match the placeholder element for TinyMCE
+                plugins: 'table lists',
+                toolbar: 'undo redo | fontselect | blocks | bold italic | alignleft aligncenter alignright | indent outdent | bullist numlist | table',
+                font_formats: "Andale Mono=andale mono,times; Arial=arial,helvetica,sans-serif; Arial Black=arial black,avant garde; Book Antiqua=book antiqua,palatino; Comic Sans MS=comic sans ms,sans-serif; Courier New=courier new,courier; Georgia=georgia,palatino; Helvetica=helvetica; Impact=impact,chicago; Symbol=symbol; Tahoma=tahoma,arial,helvetica,sans-serif; Terminal=terminal,monaco; Times New Roman=times new roman,times; Trebuchet MS=trebuchet ms,geneva; Verdana=verdana,geneva; Webdings=webdings; Wingdings=wingdings,zapf dingbats",
+                content_style: "@import url('https://fonts.googleapis.com/css2?family=Oswald&display=swap');"
+            });
+
             $(document).on('click', '.reset-filter', function() {
                 // document.getElementById("filter").reset();
                 $('.filter').val("");
@@ -206,13 +213,8 @@
                         $('.jenisSurat').val(data.data.jenisSurat);
                         $('#codeSurat').val(data.data.codeSurat);
 
-                        tinymce.init({
-                            selector: 'textarea#editor', // Replace this CSS selector to match the placeholder element for TinyMCE
-                            plugins: 'table lists',
-                            toolbar: 'undo redo | fontselect | blocks | bold italic | alignleft aligncenter alignright | indent outdent | bullist numlist | table',
-                            font_formats: "Andale Mono=andale mono,times; Arial=arial,helvetica,sans-serif; Arial Black=arial black,avant garde; Book Antiqua=book antiqua,palatino; Comic Sans MS=comic sans ms,sans-serif; Courier New=courier new,courier; Georgia=georgia,palatino; Helvetica=helvetica; Impact=impact,chicago; Symbol=symbol; Tahoma=tahoma,arial,helvetica,sans-serif; Terminal=terminal,monaco; Times New Roman=times new roman,times; Trebuchet MS=trebuchet ms,geneva; Verdana=verdana,geneva; Webdings=webdings; Wingdings=wingdings,zapf dingbats",
-                            content_style: "@import url('https://fonts.googleapis.com/css2?family=Oswald&display=swap');"
-                        });
+                        tinymce.get('editor').setContent(data.data.bodySurat);
+
                         // tinymce.activeEditor.setContent(data.data.bodySurat);
                     }
                 });
@@ -221,6 +223,11 @@
             $(document).on('click', '.btn-generate-pdf', function() {
                 $("#form-submit").click();
             })
+
+            $(document).on('click', '.close', function() {
+                console.log('close modal');
+                tinymce.get('editor').setContent('');
+            });
         });
     </script>
 @endsection

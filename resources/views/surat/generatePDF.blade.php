@@ -109,7 +109,7 @@
                         PEMERINTAHAN KABUPATEN BEKASI
                     </span><br>
                     <span class="fs-14">KECAMATAN TAMBELANG</span><br>
-                    <span class="fs-24 fw-bold">DESA SUKA RAPIH</span><br>
+                    <span class="fs-24 fw-bold">DESA SUKARAPIH</span><br>
                 <div class="fs-1 m-0">
                     <h5 class="text-left m-0">Jln. Raya Tambelang - Sukarapih No. 02 TIP</h5>
                     <h5 class="text-right m-0">Kode Pos 17620</h5>

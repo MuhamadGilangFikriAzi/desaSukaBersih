@@ -35,7 +35,7 @@ class TemplateSuratController extends Controller
             $filter['type_surat'] = $request->template_surat_id;
         }
 
-        $list = $list->paginate('10');
+        $list = $list->orderBy('created_at', 'DESC')->paginate('10');
 
         $count = TemplateSurat::all()->count();
         return view('templatesurat/index', compact('list', 'count', 'filter'));

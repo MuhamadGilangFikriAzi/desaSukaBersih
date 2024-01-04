@@ -4,7 +4,7 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header"><b>Tambah Surat</b>
+                <div class="card-header"><b>Edit Surat</b>
                 </div>
 
                 <div class="card-body">
@@ -32,12 +32,12 @@
                                 <label>{{ $detail->label }}</label>
                                 @if ($detail->input_type == 'text')
                                     <input type="text" name="detail[{{ $key }}][value]"
-                                        placeholder="Masukan {{ $detail->label }}}" class="form-control inputan"
+                                        placeholder="Masukan {{ $detail->label }}" class="form-control inputan"
                                         value="{{ $detail->value }}" data-label="{{ $detail->label }}">
                                 @endif
                                 @if ($detail->input_type == 'date')
                                     <input type="text" name="detail[{{ $key }}][value]"
-                                        placeholder="Masukan {{ $detail->label }}}" class="form-control inputan"
+                                        placeholder="Masukan {{ $detail->label }}" class="form-control inputan"
                                         value="{{ $detail->value }}" data-label="{{ $detail->label }}">
                                 @endif
                                 @if ($detail->input_type == 'document')
