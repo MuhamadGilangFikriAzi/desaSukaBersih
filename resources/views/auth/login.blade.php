@@ -11,11 +11,8 @@
     {{-- Sweat Allert --}}
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
-        .format-pre pre {
-            background: #49483e;
-            color: #f7f7f7;
-            padding: 10px;
-            font-size: 14px;
+        .cursor-pointer {
+            cursor: pointer !important;
         }
     </style>
 </head>
@@ -71,7 +68,9 @@
                                             </label>
                                         </div>
                                     </div> --}}
-                                    <div class="btn btn-dark btn-submit">Submit</div>
+                                    <div class="d-flex justify-content-end">
+                                        <div class="btn btn-dark btn-submit cursor-pointer">Submit</div>
+                                    </div>
                                     <button type="submit" class="btn btn-dark" id="btn-submit" style="width: 100%;"
                                         hidden>
                                         {{ __('Login') }}

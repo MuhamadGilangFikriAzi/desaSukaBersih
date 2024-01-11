@@ -18,8 +18,8 @@
                         <div class="form-group">
                             <label>Type Surat</label>
                             <input type="text" name="type_surat"
-                                placeholder="Masukan Type Surat, contoh : Surat Keterangan Usaha" class="form-control"
-                                value="{{ old('type_surat') }}">
+                                placeholder="Masukan Type Surat, contoh : Surat Keterangan Usaha"
+                                class="form-control mandatory" data-label="Type Surat" value="{{ old('type_surat') }}">
                             @if ($errors->has('type_surat'))
                                 <span class="text-danger">{{ $errors->first('type_surat') }}</span>
                             @endif
@@ -29,7 +29,7 @@
                             <span>Gunakan Tag berikut agar nomor surat terus berjalan <br> [TAHUN] =
                                 tahun surat &emsp; [BULAN] = Bulan surat &emsp; [URUTAN] = urutan nomor surat</span>
                             <input type="text" name="code_surat" placeholder="Masukan Code Surat, contoh : UK.06.02"
-                                class="form-control" value="{{ old('code_surat') }}">
+                                class="form-control mandatory" data-label="Code Surat" value="{{ old('code_surat') }}">
                             @if ($errors->has('code_surat'))
                                 <span class="text-danger">{{ $errors->first('code_surat') }}</span>
                             @endif
@@ -48,14 +48,16 @@
                                 <div class="row row-inputan my-1" data-id="0">
                                     <div class="col-md-3">
                                         <input type="text" name="TemplateSuratdetail[0][label]"
-                                            placeholder="Masukan Label" class="form-control">
+                                            placeholder="Masukan Label" data-label="Label" class="form-control mandatory">
                                     </div>
                                     <div class="col-md-3">
                                         <input type="text" name="TemplateSuratdetail[0][tag]"
-                                            placeholder="Masukan tag (tanpa spasi)" class="form-control">
+                                            placeholder="Masukan tag (tanpa spasi)" data-label="Tag"
+                                            class="form-control mandatory">
                                     </div>
                                     <div class="col-md-3">
-                                        <select name="TemplateSuratdetail[0][input_type]" class="custom-select">
+                                        <select name="TemplateSuratdetail[0][input_type]" data-label="Type"
+                                            class="custom-select mandatory">
                                             <option selected>Pilih...</option>
                                             <option value="text">Text</option>
                                             <option value="date">Tanggal</option>
@@ -74,12 +76,14 @@
                             <span>Gunakan Tag berikut <br>
                                 [TANGGALCETAK] = Tanggal cetak surat</span>
                             <div class="d-felx justify-content-center">
-                                <textarea class="form-control editor" id="editor" name="body_surat"></textarea>
+                                <textarea class="form-control editor mandatory" id="editor" data-label="Surat" name="body_surat"></textarea>
                             </div>
                         </div>
 
                         <div class="text-right">
-                            <input class="btn btn-primary" type="submit" name="submit" value="submit">
+                            <div class="btn btn-primary btn-submit cursor-pointer">Submit</div>
+                            <input class="btn btn-primary" type="submit" name="submit" value="submit" hidden
+                                id="btn-submit">
                         </div>
                     </form>
                 </div>
@@ -96,14 +100,14 @@
                 <div class="row row-inputan my-1" data-id="${i}">
                     <div class="col-md-3">
                         <input type="text" name="TemplateSuratdetail[${i}][label]"
-                            placeholder="Masukan Label" class="form-control">
+                            placeholder="Masukan Label" data-label="Label" class="form-control mandatory">
                     </div>
                     <div class="col-md-3">
                         <input type="text" name="TemplateSuratdetail[${i}][tag]"
-                            placeholder="Masukan tag (tanpa spasi)" class="form-control">
+                            placeholder="Masukan tag (tanpa spasi)" data-label="Tag" class="form-control mandatory">
                     </div>
                     <div class="col-md-3">
-                        <select name="TemplateSuratdetail[${i}][input_type]" class="custom-select">
+                        <select name="TemplateSuratdetail[${i}][input_type]" data-label="Type" class="custom-select mandatory">
                             <option selected>Pilih...</option>
                             <option value="text">Text</option>
                             <option value="date">Tanggal</option>
@@ -127,6 +131,27 @@
                 font_formats: "Andale Mono=andale mono,times; Arial=arial,helvetica,sans-serif; Arial Black=arial black,avant garde; Book Antiqua=book antiqua,palatino; Comic Sans MS=comic sans ms,sans-serif; Courier New=courier new,courier; Georgia=georgia,palatino; Helvetica=helvetica; Impact=impact,chicago; Symbol=symbol; Tahoma=tahoma,arial,helvetica,sans-serif; Terminal=terminal,monaco; Times New Roman=times new roman,times; Trebuchet MS=trebuchet ms,geneva; Verdana=verdana,geneva; Webdings=webdings; Wingdings=wingdings,zapf dingbats",
                 content_style: "@import url('https://fonts.googleapis.com/css2?family=Oswald&display=swap');",
                 width: 1000
+            });
+
+            $(document).on('click', '.btn-submit', function() {
+                let msgError = '';
+                tinyMCE.triggerSave();
+                $('.mandatory').each(function(i, obj) {
+                    let data = $(this);
+                    if (data.val() === null || data.val() === '' || data.val() === undefined) {
+                        msgError += data.attr('data-label') + ' Wajib Diisi <br/>';
+                    }
+                });
+
+                if (msgError === '') {
+                    $('#btn-submit').click();
+                } else {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Validasi",
+                        html: msgError
+                    });
+                }
             });
         });
     </script>

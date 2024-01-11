@@ -68,6 +68,11 @@
         referrerpolicy="origin"></script>
     {{-- Sweat Allert --}}
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        .cursor-pointer {
+            cursor: pointer !important;
+        }
+    </style>
 
 </head>
 
