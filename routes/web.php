@@ -26,6 +26,7 @@ Route::get('create-data', 'AuthorizationController@createData');
 Route::get('edit-data', 'AuthorizationController@editData');
 Route::get('update-data', 'AuthorizationController@updateData');
 Route::get('delete-data', 'AuthorizationController@deleteData');
+Route::post('login/validateuserlogin', 'Auth\LoginController@validateUserLogin')->name('validateuserlogin');
 
 Route::group(['middleware' => ['role:User|Staff Desa']], function () {
     Route::prefix('surat')->group(function () {

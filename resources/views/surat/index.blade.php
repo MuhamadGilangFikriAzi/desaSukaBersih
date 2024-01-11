@@ -26,7 +26,7 @@
                                             value="{{ $filter['id'] }}">
                                     </div>
                                     <div class="form-group">
-                                        <label>Type Surat</label>
+                                        <label>Jenis Surat</label>
                                         <select name="template_surat_id" class="custom-select filter" id="type_surat">
                                             <option selected value="">Pilih...</option>
                                             @foreach ($listTemplateSurat as $item)
@@ -46,6 +46,7 @@
                                 </div>
 
                                 <div class="col-sm-12 text-right">
+                                    <button type="reset" class="btn btn-outline-dark">Reset</button>
                                     <button type="submit" class="btn btn-outline-dark">Cari</button>
                                 </div>
                             </form>
@@ -57,11 +58,13 @@
                                 <thead>
                                     <tr>
                                         <th><b>ID</b></th>
-                                        <th><b>Type Surat</b></th>
+                                        <th><b>Jenis Surat</b></th>
                                         <th><b>Tanggal Buat</b></th>
                                         @role('Staff Desa')
                                             <th><b>Dibuat Oleh</b></th>
                                         @endrole
+                                        <th><b>Code Surat Diprint</b></th>
+                                        <th><b>Tanggal Surat DiPrint Terakhir</b></th>
                                         <th>
                                             <b>
                                                 @role('User')
@@ -85,6 +88,10 @@
                                                 @role('Staff Desa')
                                                     <td>{{ $data->user->name }}</td>
                                                 @endrole
+                                                <td>{{ $data->code_surat_printed != null ? $data->code_surat_printed : '-' }}
+                                                </td>
+                                                <td>{{ $data->printed_at != null ? date('d M Y H:i', strtotime($data->printed_at)) : '-' }}
+                                                </td>
                                                 <td>
                                                     <div>
                                                         @role('User')
@@ -158,7 +165,10 @@
                         </div>
                         <div class="form-group">
                             <label>Body Surat</label>
-                            <textarea class="form-control" id="editor" name="bodySurat"></textarea>
+                            <div class="d-flex justify-content-center">
+                                <textarea class="form-control" id="editor" name="bodySurat"></textarea>
+                            </div>
+
                             <input type="hidden" name="id" class="hidden-id">
                         </div>
 
@@ -180,7 +190,8 @@
                 plugins: 'table lists',
                 toolbar: 'undo redo | fontselect | blocks | bold italic | alignleft aligncenter alignright | indent outdent | bullist numlist | table',
                 font_formats: "Andale Mono=andale mono,times; Arial=arial,helvetica,sans-serif; Arial Black=arial black,avant garde; Book Antiqua=book antiqua,palatino; Comic Sans MS=comic sans ms,sans-serif; Courier New=courier new,courier; Georgia=georgia,palatino; Helvetica=helvetica; Impact=impact,chicago; Symbol=symbol; Tahoma=tahoma,arial,helvetica,sans-serif; Terminal=terminal,monaco; Times New Roman=times new roman,times; Trebuchet MS=trebuchet ms,geneva; Verdana=verdana,geneva; Webdings=webdings; Wingdings=wingdings,zapf dingbats",
-                content_style: "@import url('https://fonts.googleapis.com/css2?family=Oswald&display=swap');"
+                content_style: "@import url('https://fonts.googleapis.com/css2?family=Oswald&display=swap');",
+                width: 1000
             });
 
             $(document).on('click', '.reset-filter', function() {
@@ -213,9 +224,13 @@
                         $('.jenisSurat').val(data.data.jenisSurat);
                         $('#codeSurat').val(data.data.codeSurat);
 
-                        tinymce.get('editor').setContent(data.data.bodySurat);
+                        if (data.data.isRePrint) {
+                            $('.btn-generate-pdf').html('Print Ulang')
+                        } else {
+                            $('.btn-generate-pdf').html('Print');
+                        }
 
-                        // tinymce.activeEditor.setContent(data.data.bodySurat);
+                        tinymce.get('editor').setContent(data.data.bodySurat);
                     }
                 });
             })

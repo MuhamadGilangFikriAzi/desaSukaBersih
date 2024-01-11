@@ -79,8 +79,7 @@ class SuratController extends Controller
         $bodySurat = str_replace('[TANGGALCETAK]', date('d F Y'), $bodySurat);
 
         $templateSurat = TemplateSurat::find($data->template_surat_id);
-        $codeSurat = $templateSurat->code_surat;
-
+        $codeSurat = !$isRePrint ? $templateSurat->code_surat : $data->code_surat_printed;
         $arrMonth = [
             '01' => 'I',
             '02' => 'II',

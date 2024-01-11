@@ -21,13 +21,14 @@
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label>Tipe Surat</label>
+                                    <label>Jenis Surat</label>
                                     <input type="text" name="type_surat" class="form-control filter"
                                         value="{{ $filter['type_surat'] }}">
                                 </div>
                             </div>
 
                             <div class="col-sm-12 text-right">
+                                <button type="reset" class="btn btn-outline-dark">Reset</button>
                                 <button type="submit" class="btn btn-outline-dark">Cari</button>
                             </div>
                         </form>
@@ -59,10 +60,6 @@
                                                 <a href="{{ url('/templatesurat/edit/' . $data->id . '') }}">
                                                     <button class="btn btn-outline-dark"><i
                                                             class="fas fa-edit"></i></button>
-                                                </a>
-                                                <a href="{{ url('/TemplateSurat/destroy/' . $data->id . '') }}">
-                                                    <button class="btn btn-outline-dark"><i
-                                                            class="fas fa-trash"></i></button>
                                                 </a>
                                             </div>
                                         </td>

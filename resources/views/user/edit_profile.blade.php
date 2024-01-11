@@ -83,7 +83,7 @@
                         <div class="form-group">
                             <label>KTP</label>
                             <img src="{{ asset('img/ktp/' . $data->ktp) }}" alt="..." class="img-thumbnail"
-                                style="width: 130px; height: 100px; accept="image/*">
+                                style="width: 130px; height: 100px; accept="image/jpeg">
                             <input type="file" name="ktp">
                         </div>
                         <input type="submit" value="Save Change" class="btn btn-primary float-left" id="btn-submit" hidden>

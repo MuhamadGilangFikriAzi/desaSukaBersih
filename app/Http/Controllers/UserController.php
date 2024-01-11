@@ -15,14 +15,28 @@ class userController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $list = User::query();
-        $data = User::count();
+        $filter = [
+            'name' => '',
+            'created_at' => '',
+        ];
 
-        $list = User::paginate('5');
+        if ($request->name) {
+            $list = $list->where('name', 'like', '%' . $request->name . '%');
+            $filter['name'] = $request->id;
+        }
 
-        return view('user.list', compact('list', 'data'));
+        if ($request->created_at) {
+            $list = $list->whereDate('created_at', $request->created_at);
+            $filter['created_at'] = $request->created_at;
+        }
+        $data = $list->count();
+
+        $list = $list->orderBy('created_at', 'DESC')->paginate('10');
+
+        return view('user.list', compact('list', 'data', 'filter'));
     }
 
     public function getDataUserByID(Request $request)

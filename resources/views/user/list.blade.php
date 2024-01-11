@@ -4,18 +4,37 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header text-left"><b>List User</b></div>
-                <div class="card-body">
-                    <div class="text-left">
-                        <div class="">
-                        </div>
-                        <div class="col text-right">
-                            <form action="" method="get">
-                                <input type="text" name="name">
-                                <input type="submit" value="Search" class="btn btn-dark">
-                            </form>
-                        </div>
+                <div class="card-header text-left"><b>User</b></div>
+                <div class="row p-3">
+                    <div class="col-sm-12">
+                        <label>Filter</label>
                     </div>
+                    <div class="col-sm-12">
+                        <form action="{{ route('user') }}" method="get" enctype="multipart/form-data" class="row"
+                            id="filter">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Nama</label>
+                                    <input type="text" name="name" class="form-control filter"
+                                        value="{{ $filter['name'] }}">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Tanggal Buat</label>
+                                    <input type="date" name="created_at" class="form-control filter"
+                                        value="{{ $filter['created_at'] }}">
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12 text-right">
+                                <button type="reset" class="btn btn-outline-dark">Reset</button>
+                                <button type="submit" class="btn btn-outline-dark">Cari</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="card-body">
                     <div class="table-responsive">
                         <table class="table table-striped">
                             <thead>

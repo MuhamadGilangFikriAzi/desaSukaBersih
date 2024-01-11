@@ -54,7 +54,7 @@
 
                                     <div class="form-group">
                                         <label>KTP</label>
-                                        <input id="ktp" type="file" accept="image/*"
+                                        <input id="ktp" type="file" accept="image/jpeg"
                                             class="form-control @error('ktp') is-invalid @enderror" name="ktp"
                                             placeholder="ktp" value="{{ old('ktp') }}" required autocomplete="ktp">
 

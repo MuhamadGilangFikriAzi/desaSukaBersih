@@ -32,7 +32,7 @@ class TemplateSuratController extends Controller
         }
         if ($request->type_surat) {
             $list = $list->where('type_surat', 'like', '%' . $request->type_surat . '%');
-            $filter['type_surat'] = $request->template_surat_id;
+            $filter['type_surat'] = $request->type_surat;
         }
 
         $list = $list->orderBy('created_at', 'DESC')->paginate('10');

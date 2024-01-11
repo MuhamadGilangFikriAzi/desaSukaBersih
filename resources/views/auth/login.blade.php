@@ -8,6 +8,16 @@
     <script src="{{ url('limitless/global_assets/js/main/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ url('limitless/global_assets/js/plugins/loaders/blockui.min.js') }}"></script>
     <script src="{{ url('limitless/global_assets/js/plugins/ui/ripple.min.js') }}"></script>
+    {{-- Sweat Allert --}}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        .format-pre pre {
+            background: #49483e;
+            color: #f7f7f7;
+            padding: 10px;
+            font-size: 14px;
+        }
+    </style>
 </head>
 
 <body>
@@ -31,12 +41,12 @@
                                 <form method="POST" action="{{ route('login') }}" class="px-4 py-3">
                                     @csrf
                                     <div class="form-group">
-                                        <input id="username" type="text"
-                                            class="form-control onlynumber @error('username') is-invalid @enderror"
-                                            name="nik" placeholder="Enter NIK..." value="{{ old('username') }}"
+                                        <input id="nik" type="text"
+                                            class="form-control onlynumber @error('nik') is-invalid @enderror"
+                                            name="nik" placeholder="Enter NIK..." value="{{ old('nik') }}"
                                             required autocomplete="NIK" autofocus maxlength="16">
 
-                                        @error('username')
+                                        @error('nik')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
                                             </span>
@@ -61,7 +71,9 @@
                                             </label>
                                         </div>
                                     </div> --}}
-                                    <button type="submit" class="btn btn-dark" style="width: 100%;">
+                                    <div class="btn btn-dark btn-submit">Submit</div>
+                                    <button type="submit" class="btn btn-dark" id="btn-submit" style="width: 100%;"
+                                        hidden>
                                         {{ __('Login') }}
                                     </button>
                                 </form>
@@ -94,6 +106,36 @@
             text = text.replace(/[^0-9]/, "");
             $(this).val(text);
         });
+
+        $(document).on('click', '.btn-submit', function() {
+            const nik = $('#nik').val();
+            const password = $('#password').val();
+            console.log('niknya', nik);
+            console.log('password', password);
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                },
+                method: "POST",
+                url: "{{ route('validateuserlogin') }}",
+                data: {
+                    'nik': nik,
+                    'password': password
+                },
+                success: function(data) {
+                    if (data.isValid) {
+                        $('#btn-submit').click();
+                    } else {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Validasi",
+                            html: data.massage
+                        });
+                    }
+
+                }
+            });
+        })
     })
 </script>
 
