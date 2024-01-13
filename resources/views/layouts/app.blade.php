@@ -72,6 +72,10 @@
         .cursor-pointer {
             cursor: pointer !important;
         }
+
+        .valign-middle {
+            vertical-align: middle;
+        }
     </style>
 
 </head>

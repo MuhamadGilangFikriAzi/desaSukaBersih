@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\SuratExport;
 use App\Models\Surat;
 use App\Models\SuratDetail;
 use App\Models\TemplateSurat;
 use DB;
+use Excel;
 use Illuminate\Http\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -246,14 +248,18 @@ class SuratController extends Controller
         return redirect('/surat/');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    public function generateReportExcel(Request $request)
     {
-        //
+        // dd($request);
+        $conditionTemplateSurat = $request->template_surat_id != 'all' ? "and a.template_surat_id = " . $request->template_surat_id : "";
+        $query = "SELECT a.id, b.type_surat, a.code_surat_printed, a.printed_at, usr.name AS pemohon, staff.name AS nama_staf_desa FROM surat a
+        JOIN template_surat b ON a.template_surat_id = b.id
+        JOIN users staff ON a.last_admin_print = staff.id
+        JOIN users usr ON a.user_id = usr.id
+        WHERE code_surat_printed IS NOT NULL AND DATE(a.printed_at) >= '" . $request->date_start . "' AND DATE(a.printed_at) <= '" . $request->date_end . "'
+        " . $conditionTemplateSurat . "
+        ORDER BY a.printed_at asc";
+        $data = DB::select($query);
+        return Excel::download(new SuratExport($data, "Laporan"), 'laporan.xlsx', \Maatwebsite\Excel\Excel::XLSX);
     }
 }

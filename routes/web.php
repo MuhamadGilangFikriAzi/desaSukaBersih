@@ -35,8 +35,6 @@ Route::group(['middleware' => ['role:User|Staff Desa']], function () {
         Route::get('edit/{id}', 'SuratController@edit')->name('suratedit');
         Route::post('update', 'SuratController@update')->name('suratupdate');
         Route::post('onChangeTypeSurat', 'SuratController@onChangeTypeSurat')->name('onChangeTypeSurat');
-        Route::post('getDataOnPrint', 'SuratController@getDataOnPrint')->name('getDataOnPrint');
-        Route::post('generateSuratPDF', 'SuratController@generateSuratPDF')->name('geerateSuratPDF');
     });
 });
 
@@ -47,7 +45,12 @@ Route::group(['middleware' => ['role:Staff Desa']], function () {
         Route::post('create/store', 'TemplateSuratController@store')->name('templatesuratstore');
         Route::get('edit/{id}', 'TemplateSuratController@edit')->name('templatesuratedit');
         Route::post('update', 'TemplateSuratController@update')->name('templatesuratupdate');
-        Route::delete('destroy/{id}', 'TemplateSuratController@destroy')->name('templatesuratdestroy');
+    });
+
+    Route::prefix('surat')->group(function () {
+        Route::post('getDataOnPrint', 'SuratController@getDataOnPrint')->name('getDataOnPrint');
+        Route::post('generateSuratPDF', 'SuratController@generateSuratPDF')->name('geerateSuratPDF');
+        Route::post('generateReportExcel', 'SuratController@generateReportExcel')->name('generateReportExcel');
     });
 
     Route::prefix('user')->group(function () {

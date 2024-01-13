@@ -107,20 +107,20 @@
                     let label = $(this).attr('data-label');
 
                     if (value === undefined || value === '') textError += label +
-                        ' wajib diisi !\n';
+                        ' wajib diisi ! <br/>';
                 });
                 if (password != "") {
                     let rePassword = $('.repassword').val();
                     if (password.trim().length < 8) {
-                        textError += "Password Minimal 8 karakter !\n";
+                        textError += "Password Minimal 8 karakter ! <br/>";
                     }
 
                     if (rePassword.trim() === "") {
-                        textError += "Password Konfrimasi wajib diisi !\n";
+                        textError += "Password Konfrimasi wajib diisi ! <br/>";
                     }
 
                     if (password.trim() != rePassword.trim()) {
-                        textError += "Password harus sama dengan password konfirmasi !\n";
+                        textError += "Password harus sama dengan password konfirmasi ! <br/>";
                     }
                 }
 
@@ -147,7 +147,7 @@
                     Swal.fire({
                         icon: "error",
                         title: "Validasi",
-                        text: validasi
+                        html: validasi
                     });
                 }
             });

@@ -46,6 +46,8 @@
                                 </div>
 
                                 <div class="col-sm-12 text-right">
+                                    <div class="btn btn-outline-dark btn-opendialogreport" data-toggle="modal"
+                                        data-target="#report">Download Laporan Surat</div>
                                     <button type="reset" class="btn btn-outline-dark">Reset</button>
                                     <button type="submit" class="btn btn-outline-dark">Cari</button>
                                 </div>
@@ -182,8 +184,83 @@
         </div>
     </div>
 
+    <div class="modal fade" id="report" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="report-title">Download Laporan Surat</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="print-body">
+                    <form id="generateReport" action="{{ route('generateReportExcel') }}" method="post"
+                        enctype="multipart/form-data">
+                        @csrf
+                        <div class="form-group">
+                            <label>Jenis Surat</label>
+                            <select name="template_surat_id" class="custom-select report-input" data-label="Jenis Surat"
+                                id="type_surat_report">
+                                <option selected value="all">Semua</option>
+                                @foreach ($listTemplateSurat as $item)
+                                    <option value="{{ $item->id }}">
+                                        {{ $item->type_surat }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Tanggal Print Surat</label>
+                            <div class="row">
+                                <div class="col-sm-5">
+                                    <input type="date" name="date_start" data-label="Tanggal Awal"
+                                        id="tanggal_awal_report" class="form-control report-input">
+                                </div>
+                                <div class="col-sm-2 text-center valign-middle">
+                                    Sampai dengan
+                                </div>
+                                <div class="col-sm-5">
+                                    <input type="date" name="date_end" data-label="Tanggal Akhir"
+                                        id="tanggal_akhir_report" class="form-control report-input">
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" id="btn-generate-report" hidden></button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <div class="btn btn-primary btn-generate-report">Download Laporan</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         $(document).ready(function() {
+            let validateReport = () => {
+                let inputan = $('.report-input');
+                let textError = '';
+
+                inputan.each(function() {
+                    let value = $(this).val();
+                    let label = $(this).attr('data-label');
+
+                    if (value === undefined || value === '') textError += label +
+                        ' wajib diisi ! <br/>';
+                });
+
+                if (textError === '') {
+                    let tanggalAwal = $('#tanggal_awal').val();
+                    let tanggalAkhir = $('#tanggal_akhir').val();
+
+                    if (tanggalAwal > tanggalAkhir) {
+                        textError += 'Tanggal Awal tidak boleh lebih besar dari tanggal akhir ! <br/>';
+                    }
+                }
+
+                return textError;
+            }
 
             tinymce.init({
                 selector: 'textarea#editor', // Replace this CSS selector to match the placeholder element for TinyMCE
@@ -195,16 +272,10 @@
             });
 
             $(document).on('click', '.reset-filter', function() {
-                // document.getElementById("filter").reset();
                 $('.filter').val("");
                 var url = '{{ route('surat', ':id') }}';
                 url = url.replace(':id', '');
             });
-
-            // $('.bt-print').on('click', function() {
-            //     let id = $(this).attr('data-id');
-            //     console.log(id);
-            // })
 
             $(document).on('click', '.btn-print', function() {
                 let id = $(this).attr('data-id');
@@ -233,7 +304,7 @@
                         tinymce.get('editor').setContent(data.data.bodySurat);
                     }
                 });
-            })
+            });
 
             $(document).on('click', '.btn-generate-pdf', function() {
                 $("#form-submit").click();
@@ -242,6 +313,49 @@
             $(document).on('click', '.close', function() {
                 console.log('close modal');
                 tinymce.get('editor').setContent('');
+            });
+
+            $(document).on('click', '.btn-generate-report', function() {
+                let tipeSurat = $('#type_surat_report').val();
+                let tanggalAwal = $('#tanggal_awal_report').val();
+                let tanggalAkhir = $('#tanggal_akhir_report').val();
+                let validasi = validateReport()
+                if (validasi === '') {
+                    Swal.fire({
+                        title: "Apakah anda yakin?",
+                        text: "Download Laporan Ini?",
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#3085d6",
+                        cancelButtonColor: "#d33",
+                        confirmButtonText: "Ya, Download!"
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            $('#btn-generate-report').click();
+                            // $.ajax({
+                            //     headers: {
+                            //         'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                            //     },
+                            //     method: "POST",
+                            //     url: "{{ route('generateReportExcel') }}",
+                            //     data: {
+                            //         'type_surat': tipeSurat,
+                            //         'tanggal_awal': tanggalAwal,
+                            //         'tanggal_akhir': tanggalAkhir
+                            //     },
+                            //     success: function(data) {
+                            //         console.log('data balikannya', data);
+                            //     }
+                            // });
+                        }
+                    });
+                } else {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Validasi",
+                        html: validasi
+                    });
+                }
             });
         });
     </script>

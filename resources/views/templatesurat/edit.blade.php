@@ -145,9 +145,9 @@
                 let bodySurat = $('#editor').val();
 
                 let textError = '';
-                if (typeSurat === '') textError += 'Type Surat wajib diisi ! \n'
-                if (codeSurat === '') textError += 'Code Surat wajib diisi ! \n'
-                if (bodySurat === '') textError += 'Body Surat wajib diisi ! \n'
+                if (typeSurat === '') textError += 'Type Surat wajib diisi ! <br/>'
+                if (codeSurat === '') textError += 'Code Surat wajib diisi ! <br/>'
+                if (bodySurat === '') textError += 'Body Surat wajib diisi ! <br/>'
 
                 return textError;
 
@@ -171,7 +171,7 @@
                             Swal.fire({
                                 icon: "error",
                                 title: "Validasi",
-                                text: validasi
+                                html: validasi
                             });
                         }
                     }

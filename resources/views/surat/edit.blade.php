@@ -79,7 +79,8 @@
                     let value = $(this).val();
                     let label = $(this).attr('data-label');
 
-                    if (value === undefined || value === '') textError += label + ' wajib diisi ! \n';
+                    if (value === undefined || value === '') textError += label +
+                        ' wajib diisi ! <br/>';
                 });
 
                 return textError;
@@ -105,7 +106,7 @@
                     Swal.fire({
                         icon: "error",
                         title: "Validasi",
-                        text: validasi
+                        html: validasi
                     });
                 }
             });
