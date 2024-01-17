@@ -17,14 +17,14 @@
     </style>
 </head>
 
-<body>
+<body style="padding: 200px">
     <div class="row justify-content-center">
         <div class="col-xl-7 col-sm-9 col-md-6">
             <div class="card o-hidden border-0 shadow-sm-2 my-5">
-                <div class="card-body p-0">
+                <div class="card-body p-0" style="box-shadow: 10px 10px 5px gray">
                     <!-- Nested Row within Card Body -->
                     <div class="row">
-                        <div class="col-lg-6 d-none bg-login-image d-flex justify-content-center align-items-center"
+                        <div class="col-lg-6 d-none bg-login-image d-flex justify-content-center align-items-center pt-5"
                             style="height: 80%">
                             <img src="{{ asset('img/kab-logo.png') }}" alt="img"
                                 style="width: 60%; background-color: white; height: 60%;"
@@ -68,8 +68,8 @@
                                             </label>
                                         </div>
                                     </div> --}}
-                                    <div class="d-flex justify-content-end">
-                                        <div class="btn btn-dark btn-submit cursor-pointer">Submit</div>
+                                    <div class="d-flex justify-content-center">
+                                        <div class="btn btn-outline-dark btn-submit cursor-pointer w-100">Submit</div>
                                     </div>
                                     <button type="submit" class="btn btn-dark" id="btn-submit" style="width: 100%;"
                                         hidden>
@@ -86,7 +86,7 @@
                                 </div> --}}
                                 <div class="text-center">
                                     @if (Route::has('register'))
-                                        <a class="small" href="{{ route('register') }}">Buat Akun!</a>
+                                        <a class="small w-100" href="{{ route('register') }}">Buat Akun!</a>
                                     @endif
                                 </div>
 
