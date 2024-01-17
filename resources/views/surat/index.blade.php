@@ -46,8 +46,10 @@
                                 </div>
 
                                 <div class="col-sm-12 text-right">
-                                    <div class="btn btn-outline-dark btn-opendialogreport" data-toggle="modal"
-                                        data-target="#report">Download Laporan Surat</div>
+                                    @role('Staff Desa')
+                                        <div class="btn btn-outline-dark btn-opendialogreport" data-toggle="modal"
+                                            data-target="#report">Download Laporan Surat</div>
+                                    @endrole
                                     <button type="reset" class="btn btn-outline-dark">Reset</button>
                                     <button type="submit" class="btn btn-outline-dark">Cari</button>
                                 </div>
@@ -65,8 +67,8 @@
                                         @role('Staff Desa')
                                             <th><b>Dibuat Oleh</b></th>
                                         @endrole
-                                        <th><b>Code Surat Diprint</b></th>
-                                        <th><b>Tanggal Surat DiPrint Terakhir</b></th>
+                                        <th><b>Kode Surat Diprint</b></th>
+                                        <th><b>Tanggal Surat Diprint Terakhir</b></th>
                                         <th>
                                             <b>
                                                 @role('User')
@@ -114,7 +116,7 @@
                                             </tr>
                                         @endforeach
                                     @else
-                                        <td colspan="4">
+                                        <td colspan="6">
                                             Tidak Ada Surat
                                         </td>
                                     @endif
@@ -268,7 +270,7 @@
                 toolbar: 'undo redo | fontselect | blocks | bold italic | alignleft aligncenter alignright | indent outdent | bullist numlist | table',
                 font_formats: "Andale Mono=andale mono,times; Arial=arial,helvetica,sans-serif; Arial Black=arial black,avant garde; Book Antiqua=book antiqua,palatino; Comic Sans MS=comic sans ms,sans-serif; Courier New=courier new,courier; Georgia=georgia,palatino; Helvetica=helvetica; Impact=impact,chicago; Symbol=symbol; Tahoma=tahoma,arial,helvetica,sans-serif; Terminal=terminal,monaco; Times New Roman=times new roman,times; Trebuchet MS=trebuchet ms,geneva; Verdana=verdana,geneva; Webdings=webdings; Wingdings=wingdings,zapf dingbats",
                 content_style: "@import url('https://fonts.googleapis.com/css2?family=Oswald&display=swap');",
-                width: 1000
+                width: 800
             });
 
             $(document).on('click', '.reset-filter', function() {

@@ -76,6 +76,10 @@
         .valign-middle {
             vertical-align: middle;
         }
+
+        .text-center {
+            text-align: center;
+        }
     </style>
 
 </head>
@@ -131,11 +135,11 @@
             <!-- Main Sidebar Container -->
             <aside class="main-sidebar sidebar-dark-primary elevation-4">
                 <!-- Brand Logo -->
-                <a href="#" class="brand-link">
+                <a href="#" class="brand-link text-center">
                     <img src="{{ asset('img/kab-logo.png') }}" alt="img"
                         class="brand-image img-circle elevation-3"
                         style="opacity: .8; background: transparant !important">
-                    <span class="brand-text font-weight-light">Web Desa Suka Bersih</span>
+                    <span class="brand-text font-weight-light">SIPAK</span>
                 </a>
 
                 <!-- Sidebar -->

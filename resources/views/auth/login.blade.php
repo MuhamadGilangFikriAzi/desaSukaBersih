@@ -33,7 +33,7 @@
                         <div class="col-lg-6">
                             <div class="p-5">
                                 <div class="text-center">
-                                    <h1 class="h4 text-gray-900 mb-4">Login</h1>
+                                    <h1 class="h4 text-gray-900 mb-4">Login SIPAK</h1>
                                 </div>
                                 <form method="POST" action="{{ route('login') }}" class="px-4 py-3">
                                     @csrf
