@@ -17,7 +17,7 @@
     </style>
 </head>
 
-<body style="padding: 200px">
+<body style="padding: 140px">
     <div class="row justify-content-center">
         <div class="col-xl-7 col-sm-9 col-md-6">
             <div class="card o-hidden border-0 shadow-sm-2 my-5">
