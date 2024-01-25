@@ -30,7 +30,9 @@
                         </div>
 
                         <div class="text-right">
-                            <input class="btn btn-primary" type="submit" name="submit" value="submit">
+                            <div class="btn btn-primary btn-submit">Submit</div>
+                            <input class="btn btn-primary" type="submit" name="submit" id="submit" value="submit"
+                                hidden>
                         </div>
                     </form>
                 </div>
@@ -40,6 +42,46 @@
 
     <script type="text/javascript">
         $(document).ready(function() {
+
+            let validate = () => {
+                let inputan = $('.mandatory');
+                let textError = '';
+
+                inputan.each(function() {
+                    let value = $(this).val();
+                    let label = $(this).attr('data-label');
+
+                    if (value === undefined || value === '') textError += label +
+                        ' wajib diisi ! <br/>';
+                });
+
+                return textError;
+            }
+
+            $(document).on('click', '.btn-submit', function() {
+                let validasi = validate()
+                if (validasi === '') {
+                    Swal.fire({
+                        title: "Apakah anda yakin?",
+                        text: "Membuat Mengajukan surat dengan data ini?",
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#3085d6",
+                        cancelButtonColor: "#d33",
+                        confirmButtonText: "Ya!"
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            $('#submit').click();
+                        }
+                    });
+                } else {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Validasi",
+                        html: validasi
+                    });
+                }
+            });
 
             $(document).on('change', '#type_surat', function() {
                 var id = $(this).val();
@@ -63,7 +105,7 @@
                                 html += `
                                     <div class="form-group">
                                         <label>${element.label}</label>
-                                        <input type="text" name="detail[${i}][value]" placeholder="Masukan ${element.label}" class="form-control">
+                                        <input type="text" name="detail[${i}][value]" data-label="${element.label}" placeholder="Masukan ${element.label}" class="form-control mandatory">
                                         <input type="hidden" name="detail[${i}][tag]" value="${element.tag}">
                                         <input type="hidden" name="detail[${i}][label]" value="${element.label}">
                                         <input type="hidden" name="detail[${i}][input_type]" value="${element.input_type}">
@@ -74,7 +116,7 @@
                                 html += `
                                     <div class="form-group">
                                         <label>${element.label}</label>
-                                        <input type="date" name="detail[${i}][value]" placeholder="Masukan ${element.label}" class="form-control">
+                                        <input type="date" name="detail[${i}][value]" data-label="${element.label}" placeholder="Masukan ${element.label}" class="form-control mandatory">
                                         <input type="hidden" name="detail[${i}][tag]" value="${element.tag}">
                                         <input type="hidden" name="detail[${i}][label]" value="${element.label}">
                                         <input type="hidden" name="detail[${i}][input_type]" value="${element.input_type}">
@@ -85,19 +127,16 @@
                                 html += `
                                     <div class="form-group">
                                         <label>${element.label}</label>
-                                        <input type="file" accept="application/pdf" name="detail[${i}][value]" placeholder="Masukan ${element.label}" class="form-control">
+                                        <input type="file" accept="application/pdf" data-label="${element.label}" name="detail[${i}][value]" placeholder="Masukan ${element.label}" class="form-control mandatory">
                                         <input type="hidden" name="detail[${i}][tag]" value="${element.tag}">
                                         <input type="hidden" name="detail[${i}][label]" value="${element.label}">
                                         <input type="hidden" name="detail[${i}][input_type]" value="${element.input_type}">
                                     </div>`
                             }
-
                             i++;
                         });
 
                         $('.additional-input').html(html);
-
-
                     }
                 });
             });

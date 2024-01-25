@@ -57,6 +57,7 @@ Route::group(['middleware' => ['role:Staff Desa']], function () {
         Route::get('/', 'UserController@index')->name('user');
         Route::post('getDataUserByID', 'UserController@getDataUserByID')->name('getDataUserByID');
         Route::post('giveUserRole', 'UserController@giveUserRole')->name('giveUserRole');
+        Route::post('rejectUser', 'userController@rejectUser')->name('rejectUser');
     });
 });
 

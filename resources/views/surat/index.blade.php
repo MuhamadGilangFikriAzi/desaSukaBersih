@@ -6,6 +6,12 @@
             <div class="alert alert-error col-sm-12 text-center" role="alert">
                 Akun belum diverifikasi oleh Staff Desa!
             </div>
+            @if ($user->note_reject != '' || $user->note_reject != null)
+                <div class="alert alert-error col-sm-12 text-center" role="alert">
+                    Akun ditolak Staff Desa dengan alasan : <br>
+                    {{ $user->note_reject }}
+                </div>
+            @endif
         @endrole
 
         @hasanyrole('User|Staff Desa')

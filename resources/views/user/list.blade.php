@@ -124,10 +124,15 @@
                         <img src="" alt="..." class="img-thumbnail" style="width: 80%; height: 500px;"
                             id="ktp">
                     </div>
+                    <div class="form-group">
+                        <label>*Alasan Tolak</label>
+                        <textarea name="reason" id="reason" cols="30" rows="10" class="form-control"></textarea>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     @role('Staff Desa')
                         <div class="for-footer">
+                            <button type="button" class="btn btn-outline-dark btn-reject" data-id="">Tolak</button>
                             <button type="button" class="btn btn-outline-dark btn-verif" data-id="">Verifikasi
                                 User</button>
                             <button type="button" class="btn btn-outline-dark btn-staffDesa" data-id="">Jadikan Staff
@@ -203,9 +208,40 @@
                     confirmButtonText: "Ya, Berikan!"
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        giveRole("Staff Desa")
+                        giveRole("Staff Desa");
                     }
                 });
+            });
+
+            $(document).on('click', '.btn-reject', function() {
+                let textError = '';
+                const reason = $('#reason').val();
+                if (reason === '') {
+                    textError += 'Alasan Tolak harus diisi';
+                }
+
+                if (textError === '') {
+                    Swal.fire({
+                        title: "Apakah anda yakin?",
+                        text: "Menolak pendaftaran user ini ?",
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#3085d6",
+                        cancelButtonColor: "#d33",
+                        confirmButtonText: "Ya, Tolak!"
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            rejectUser();
+                        }
+                    });
+                } else {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Validasi",
+                        html: textError
+                    });
+                }
+
             });
 
             function giveRole(role) {
@@ -226,6 +262,34 @@
                             text: "Akun telah terverifikasi",
                             icon: "success"
                         });
+                        $('#show').modal().hide();
+                        $('body').removeClass('modal-open');
+                        $('.modal-backdrop').remove();
+                    }
+                });
+            }
+
+            function rejectUser() {
+                let id = $('#userID').val();
+                let reason = $('#reason').val();
+
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                    },
+                    method: "POST",
+                    url: "{{ route('rejectUser') }}",
+                    data: {
+                        'id': id,
+                        'reason': reason
+                    },
+                    success: function(data) {
+                        Swal.fire({
+                            title: "Berhasil!",
+                            text: "Akun telah ditolak",
+                            icon: "success"
+                        });
+
                         $('#show').modal().hide();
                         $('body').removeClass('modal-open');
                         $('.modal-backdrop').remove();

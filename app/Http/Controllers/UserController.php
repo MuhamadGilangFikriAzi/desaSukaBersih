@@ -56,6 +56,15 @@ class userController extends Controller
         return response()->json(['data' => "Success"]);
     }
 
+    public function rejectUser(Request $request)
+    {
+        $data = User::find($request->id);
+        $data->note_reject = $request->reason;
+        $data->rejected_at = date('Y-m-d H:i:s');
+        $data->update();
+        return response()->json(['data' => "Success"]);
+    }
+
     public function edit(User $id)
     {
         $data = Auth::user();
@@ -89,6 +98,8 @@ class userController extends Controller
         if ($request->password != null) {
             $data['password'] = bcrypt($request->password);
         }
+
+        $data['rejected_at'] = null;
 
         // dd($data);
         $user = User::find($id)->update($data);

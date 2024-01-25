@@ -54,7 +54,8 @@ class SuratController extends Controller
         $list = $list->with(['template_surat'])->orderBy('created_at', 'DESC')->paginate('10');
         $listTemplateSurat = TemplateSurat::all();
         $count = $list->count();
-        return view('surat/index', compact('list', 'listTemplateSurat', 'count', 'filter'));
+        $user = Auth::user();
+        return view('surat/index', compact('list', 'listTemplateSurat', 'count', 'filter', 'user'));
     }
 
     public function create()
