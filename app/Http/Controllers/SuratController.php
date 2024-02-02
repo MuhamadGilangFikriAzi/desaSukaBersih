@@ -110,6 +110,7 @@ class SuratController extends Controller
             }
 
             if ($value->input_type == "document") {
+                $value->value = url('/document/archive/') . "/" . $value->value;
                 array_push($document, $value);
             }
         }

@@ -124,7 +124,7 @@
                         <img src="" alt="..." class="img-thumbnail" style="width: 80%; height: 500px;"
                             id="ktp">
                     </div>
-                    <div class="form-group">
+                    <div class="form-group forguest">
                         <label>*Alasan Tolak</label>
                         <textarea name="reason" id="reason" cols="30" rows="10" class="form-control"></textarea>
                     </div>
@@ -132,7 +132,8 @@
                 <div class="modal-footer">
                     @role('Staff Desa')
                         <div class="for-footer">
-                            <button type="button" class="btn btn-outline-dark btn-reject" data-id="">Tolak</button>
+                            <button type="button" class="btn btn-outline-dark btn-reject forguest"
+                                data-id="">Tolak</button>
                             <button type="button" class="btn btn-outline-dark btn-verif" data-id="">Verifikasi
                                 User</button>
                             <button type="button" class="btn btn-outline-dark btn-staffDesa" data-id="">Jadikan Staff
@@ -177,6 +178,11 @@
                         $('#role').val(resp.role)
                         $('#userID').val(resp.data.id);
                         console.log(data)
+                        if (resp.role != 'Guest') {
+                            $('.forguest').hide();
+                        } else {
+                            $('.forguest').show();
+                        }
                     }
                 });
             })

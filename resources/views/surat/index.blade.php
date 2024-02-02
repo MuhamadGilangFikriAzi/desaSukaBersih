@@ -173,6 +173,9 @@
                             <label>Kode Surat</label>
                             <input type="text" name="codeSurat" id="codeSurat" class="form-control">
                         </div>
+                        <div class="documents">
+
+                        </div>
                         <div class="form-group">
                             <label>Body Surat</label>
                             <div class="d-flex justify-content-center">
@@ -307,6 +310,18 @@
                             $('.btn-generate-pdf').html('Print Ulang')
                         } else {
                             $('.btn-generate-pdf').html('Print');
+                        }
+
+                        if (data.data.document !== undefined && data.data.document.length > 0) {
+                            $('.documents').html("");
+                            data.data.document.forEach(doc => {
+                                let url = doc.value;
+                                $('.documents').append(`<div class="form-group">
+                                    <a href="${url}" target="_blank">Lihat ${doc.label}</a>
+                                </div>`);
+                            });
+                        } else {
+                            $('.documents').html("");
                         }
 
                         tinymce.get('editor').setContent(data.data.bodySurat);
