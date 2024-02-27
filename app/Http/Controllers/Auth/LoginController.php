@@ -65,10 +65,12 @@ class LoginController extends Controller
                 $msg = $msg . 'NIK Belum Terdaftar <br/> ';
                 // array_push($msg, 'NIK Belum Terdaftar');
             }
-            if ($data->count() > 0 && Hash::make($request->password) != $data->first()->password) {
-                $msg = $msg . 'Password Salah <br/> ';
-                // array_push($msg, 'Password Salah');
-            }
+            // if ($data->count() > 0 && Hash::make($request->password) != $data->first()->password) {
+            //     var_dump($data->first()->password);
+            //     dd(Hash::make($request->password));
+            //     $msg = $msg . 'Password Salah <br/> ';
+            //     // array_push($msg, 'Password Salah');
+            // }
         }
 
         return response()->json([

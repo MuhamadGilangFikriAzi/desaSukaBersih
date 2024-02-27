@@ -109,8 +109,6 @@
         $(document).on('click', '.btn-submit', function() {
             const nik = $('#nik').val();
             const password = $('#password').val();
-            console.log('niknya', nik);
-            console.log('password', password);
             $.ajax({
                 headers: {
                     'X-CSRF-TOKEN': "{{ csrf_token() }}"
