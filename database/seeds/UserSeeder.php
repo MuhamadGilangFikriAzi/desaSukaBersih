@@ -1,29 +1,29 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\User;
 use Spatie\Permission\Models\Role;
 
-class DatabaseSeeder extends Seeder
+class UserSeeder extends Seeder
 {
     /**
-     * Seed the application's database.
+     * Run the database seeds.
      *
      * @return void
      */
     public function run()
     {
-        UserModel::create([
+        User::create([
             'name' => 'admin',
             'nik' => '11111',
             'password' => bcrypt('P@ssw0rd'), // Make sure to hash the password
             'ktp' => '1111111111111111',
         ]);
-
-        Role::create(['name' => 'Admin']);
-        Role::create(['name' => 'User']);
+        
         Role::create(['name' => 'Staff Desa']);
+        Role::create(['name' => 'User']);
 
-        $user = UserModel::where('name', 'admin')->first();
-        $user->assignRole('Admin');
+        $user = User::where('name', 'admin')->first();
+        $user->assignRole('Staff Desa');
     }
 }
