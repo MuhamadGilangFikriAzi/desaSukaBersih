@@ -18,6 +18,8 @@ class CreateSuratTable extends Migration
             $table->string('template_surat_id', 100);
             $table->text('body_surat');
             $table->integer('user_id');
+            $table->string('code_surat_printed', 100)->nullable();
+            $table->text('body_surat_printed')->nullable();
             $table->integer('last_admin_print')->nullable();
             $table->timestamp("printed_at")->nullable();
             $table->timestamps();

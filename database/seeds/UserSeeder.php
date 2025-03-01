@@ -13,6 +13,11 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
+        DB::table('model_has_roles')->delete();
+        DB::table('role_has_permissions')->delete();
+        DB::table('roles')->delete();
+        DB::table('users')->delete();
+
         User::create([
             'name' => 'admin',
             'nik' => '11111',
@@ -22,6 +27,7 @@ class UserSeeder extends Seeder
         
         Role::create(['name' => 'Staff Desa']);
         Role::create(['name' => 'User']);
+        Role::create(['name' => 'Guest']);
 
         $user = User::where('name', 'admin')->first();
         $user->assignRole('Staff Desa');
